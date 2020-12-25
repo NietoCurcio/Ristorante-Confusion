@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div>
-      <Navbar bg='dark' variant='dark'>
+      <Navbar bg='primary' variant='dark'>
         <Navbar.Brand href='#home'>Restorante Con Fusion</Navbar.Brand>
       </Navbar>
       <MenuComponent dishes={dishes} />
