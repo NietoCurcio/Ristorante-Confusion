@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, ListGroup } from 'react-bootstrap'
 
 // Return a <div> from the render() function. This <div> should use the Bootstrap row class to position
 //  the content within the <div>. This div will display both the details of the dish in a Card and the list
@@ -27,16 +27,16 @@ const renderComments = (arrayComments) => {
       {arrayComments && (
         <Fragment>
           <h4>Comments</h4>
-          <ul class='list-unstyled'>
+          <ListGroup className='list-unstyled' variant='flush'>
             {arrayComments.map((comment) => (
-              <li>
+              <ListGroup.Item>
                 <p>{comment.comment}</p>
                 <p>
                   -- {comment.author}, {comment.date}
                 </p>
-              </li>
+              </ListGroup.Item>
             ))}
-          </ul>
+          </ListGroup>
         </Fragment>
       )}
     </div>
