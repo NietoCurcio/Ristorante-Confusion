@@ -19,7 +19,7 @@ const MenuComponent = (props) => {
     )
   }
 
-  const { dishes, onClick } = props
+  const { dishes } = props
   return (
     <div className='container mb-5'>
       <div className='row'>
@@ -27,7 +27,7 @@ const MenuComponent = (props) => {
           return (
             <div key={dish.id} className='col-12 col-md-6 mt-5'>
               {/* React requires a key, to use that property when a item is added, updated or removed from the list */}
-              <RenderMenuItem dish={dish} onClick={onClick} />
+              <RenderMenuItem dish={dish} />
             </div>
           )
         })}
