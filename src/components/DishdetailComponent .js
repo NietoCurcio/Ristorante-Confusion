@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import { Card, ListGroup } from 'react-bootstrap'
 
-const renderDish = (dish) => {
+const RenderDish = ({ dish }) => {
   return (
     <Card>
       <Card.Img variant='top' src={dish.image} alt={dish.name} />
@@ -13,7 +13,7 @@ const renderDish = (dish) => {
   )
 }
 
-const renderComments = (arrayComments) => {
+const RenderComments = ({ arrayComments }) => {
   return (
     <div>
       {arrayComments && (
@@ -56,9 +56,11 @@ const DishdetailComponent = (props) => {
     <div className='container'>
       {console.log('Life Cycle DishDetail render')}
       <div className='row mt-5'>
-        <div className='col-sm-12 col-md-5 m-1'>{renderDish(dish)}</div>
+        <div className='col-sm-12 col-md-5 m-1'>
+          <RenderDish dish={dish} />
+        </div>
         <div className='col-12 col-sm-12 col-md-5'>
-          {renderComments(dish.comments)}
+          <RenderComments arrayComments={dish.comments} />
         </div>
       </div>
     </div>
