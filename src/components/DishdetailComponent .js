@@ -1,13 +1,5 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Card, ListGroup } from 'react-bootstrap'
-
-// Return a <div> from the render() function. This <div> should use the Bootstrap row class to position
-//  the content within the <div>. This div will display both the details of the dish in a Card and the list
-//  of comments side-by-side for medium to extra large screens, but will stack them for xs and sm screens.
-
-// The card should be enclosed inside a <div> appropriate Bootstrap column classes so that it occupies the
-// entire 12 columns for the xs and sm screen sizes, and 5 columns for md screens and above. Also apply a
-// class of m-1 to this div.
 
 const renderDish = (dish) => {
   return (
@@ -29,10 +21,15 @@ const renderComments = (arrayComments) => {
           <h4>Comments</h4>
           <ListGroup className='list-unstyled' variant='flush'>
             {arrayComments.map((comment) => (
-              <ListGroup.Item>
+              <ListGroup.Item key={comment.id}>
                 <p>{comment.comment}</p>
                 <p>
-                  -- {comment.author}, {comment.date}
+                  -- {comment.author},{' '}
+                  {new Intl.DateTimeFormat('pt-BR', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit',
+                  }).format(new Date(comment.date))}
                 </p>
               </ListGroup.Item>
             ))}
@@ -45,16 +42,28 @@ const renderComments = (arrayComments) => {
 
 const DishdetailComponent = (props) => {
   const { dish } = props
-  console.log(dish)
+
+  useEffect(() => {
+    console.log('Life Cycle DishDetail useEffect')
+  }, [dish])
+  // if our component re-render and the argument here "[dish]" is the same, React skip the effect
+  // https://reactjs.org/docs/hooks-effect.html
+  // according to react documentations:
+  // "you can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined"
+
+  // console.log(dish)
   return dish ? (
-    <div className='row mt-5'>
-      <div className='col-sm-12 col-md-5 m-1'>{renderDish(dish)}</div>
-      <div className='col-12 col-sm-12 col-md-5'>
-        {renderComments(dish.comments)}
+    <div className='container'>
+      {console.log('Life Cycle DishDetail render')}
+      <div className='row mt-5'>
+        <div className='col-sm-12 col-md-5 m-1'>{renderDish(dish)}</div>
+        <div className='col-12 col-sm-12 col-md-5'>
+          {renderComments(dish.comments)}
+        </div>
       </div>
     </div>
   ) : (
-    <div></div>
+    <div>{console.log('Life Cycle DishDetail render')}</div>
   )
 }
 

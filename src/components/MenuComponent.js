@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Card } from 'react-bootstrap'
-import Dishdetail from './DishdetailComponent '
 
 const MenuComponent = (props) => {
-  const [selectedDish, setSelectedDishe] = useState(null)
-
-  const onDishSelected = (e, dish) => {
-    setSelectedDishe(dish)
-  }
-
   useEffect(() => {
-    console.log('Life cycle useEffect')
+    console.log('Life cycle Menu useEffect')
   }, [])
 
   const menu = props.dishes
@@ -21,7 +14,9 @@ const MenuComponent = (props) => {
           return (
             <div key={dish.id} className='col-12 col-md-6 mt-5'>
               {/* React requires a key, to use that property when a item is added, updated or removed from the list */}
-              <Card onClick={(e) => onDishSelected(e, dish)}>
+              <Card onClick={(e) => props.onClick(e, dish.id)}>
+                {/* prof approach - a function that call another arrow function passing arguments that calls onSelectedDishe using those arguments */}
+                {/* mine approach - a function that calls onSelectedDishe passing arguments */}
                 <Card.Img variant='top' src={dish.image} alt={dish.name} />
                 <Card.Body className='ml-5'>
                   <Card.Title>{dish.name}</Card.Title>
@@ -31,8 +26,7 @@ const MenuComponent = (props) => {
           )
         })}
       </div>
-      <Dishdetail dish={selectedDish} />
-      {console.log('Life cycle render')}
+      {console.log('Life cycle Menu render')}
     </div>
   )
 }
