@@ -1,8 +1,22 @@
 import React from 'react'
+import { Breadcrumb } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const ContactComponent = () => {
   return (
     <div className='container'>
+      <div className='row'>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to='/home'>Home</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Contact Us</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className='col-12'>
+          <h3>Contact Us</h3>
+          <hr />
+        </div>
+      </div>
       <div className='row row-content'>
         <div className='col-12'>
           <h3>Location Information</h3>
@@ -36,7 +50,11 @@ const ContactComponent = () => {
             >
               <i className='fa fa-phone'></i> Call
             </a>
-            <a role='button' className='btn btn-info'>
+            <a
+              role='button'
+              href='https://www.skype.com/en/'
+              className='btn btn-info'
+            >
               <i className='fa fa-skype'></i> Skype
             </a>
             <a

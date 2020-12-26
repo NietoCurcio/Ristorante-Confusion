@@ -9,7 +9,7 @@ import { PROMOTIONS } from '../shared/promotions'
 import { LEADERS } from '../shared/leaders'
 import { COMMENTS } from '../shared/comments'
 import { useState } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, useParams } from 'react-router-dom'
 
 function Main() {
   const [state, setState] = useState({
@@ -29,6 +29,22 @@ function Main() {
     )
   }
 
+  const DishWithId = ({ match }) => {
+    const params = useParams()
+    // console.log(JSON.stringify(match))
+    // console.log(params)
+    return (
+      <Dishdetail
+        dish={state.dishes.find(
+          (dish) => dish.id === parseInt(match.params.dishId, 10)
+        )}
+        comments={state.comments.filter(
+          (comment) => comment.dishId == params.dishId
+        )}
+      />
+    )
+  }
+
   return (
     <div>
       <Header />
@@ -40,6 +56,7 @@ function Main() {
           render={(props) => <Menu {...props} dishes={state.dishes} />}
         />
         {/* https://ui.dev/react-router-v4-pass-props-to-components/ & https://reactrouter.com/web/api/Route */}
+        <Route exact path='/menu/:dishId' component={DishWithId} />
         <Route exact path='/contactus' component={Contact} />
         <Redirect to='/home' />
       </Switch>

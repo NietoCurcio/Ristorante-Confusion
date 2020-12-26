@@ -16,7 +16,7 @@ const HeaderComponent = () => {
         <Navbar.Toggle onClick={handleToggle} />
         <Navbar.Brand className='mr-auto' href='/'>
           <img
-            src='assets/images/logo.png'
+            src='/assets/images/logo.png'
             height='30'
             width='41'
             alt='Ristorante Con Fusion'

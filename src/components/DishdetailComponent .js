@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react'
-import { Card, ListGroup } from 'react-bootstrap'
+import { Card, ListGroup, Breadcrumb } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const RenderDish = ({ dish }) => {
   return (
@@ -14,6 +15,7 @@ const RenderDish = ({ dish }) => {
 }
 
 const RenderComments = ({ arrayComments }) => {
+  console.log('FELIPE ' + JSON.stringify(arrayComments))
   return (
     <div>
       {arrayComments && (
@@ -41,7 +43,7 @@ const RenderComments = ({ arrayComments }) => {
 }
 
 const DishdetailComponent = (props) => {
-  const { dish } = props
+  const { dish, comments } = props
 
   useEffect(() => {
     console.log('Life Cycle DishDetail useEffect')
@@ -55,12 +57,24 @@ const DishdetailComponent = (props) => {
   return dish ? (
     <div className='container'>
       {console.log('Life Cycle DishDetail render')}
+      <div className='row'>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to='/menu'>Menu</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>{dish.name}</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className='col-12'>
+          <h3>{dish.name}</h3>
+          <hr />
+        </div>
+      </div>
       <div className='row mt-5'>
         <div className='col-sm-12 col-md-5 m-1'>
           <RenderDish dish={dish} />
         </div>
         <div className='col-12 col-sm-12 col-md-5'>
-          <RenderComments arrayComments={dish.comments} />
+          <RenderComments arrayComments={comments} />
         </div>
       </div>
     </div>
