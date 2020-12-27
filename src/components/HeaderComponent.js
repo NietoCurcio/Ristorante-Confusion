@@ -47,7 +47,7 @@ const HeaderComponent = () => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <Jumbotron>
+      <Jumbotron style={{ borderRadius: '0' }}>
         <div className='container'>
           <div className='row row-header'>
             <div className='col-12 col-sm-6'>

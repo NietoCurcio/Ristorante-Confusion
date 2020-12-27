@@ -4,6 +4,7 @@ import Header from './HeaderComponent'
 import Footer from './FooterComponent'
 import Home from './HomeComponent'
 import Contact from './ContactComponent'
+import About from './AboutComponent'
 import { DISHES } from '../shared/dishes'
 import { PROMOTIONS } from '../shared/promotions'
 import { LEADERS } from '../shared/leaders'
@@ -39,7 +40,7 @@ function Main() {
           (dish) => dish.id === parseInt(match.params.dishId, 10)
         )}
         comments={state.comments.filter(
-          (comment) => comment.dishId == params.dishId
+          (comment) => comment.dishId === Number(params.dishId)
         )}
       />
     )
@@ -58,6 +59,11 @@ function Main() {
         {/* https://ui.dev/react-router-v4-pass-props-to-components/ & https://reactrouter.com/web/api/Route */}
         <Route exact path='/menu/:dishId' component={DishWithId} />
         <Route exact path='/contactus' component={Contact} />
+        <Route
+          exact
+          path='/aboutus'
+          component={() => <About leaders={state.leaders} />}
+        />
         <Redirect to='/home' />
       </Switch>
       <Footer />
