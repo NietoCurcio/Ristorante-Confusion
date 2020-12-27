@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 function About(props) {
   const { leaders } = props
 
-  const RenderLeader = ({ leader }) => {
+  const RenderLeader = ({ leader, key }) => {
     return (
-      <Media as='li'>
+      <Media key={key} as='li'>
         <img
           width={64}
           height={64}
@@ -102,7 +102,7 @@ function About(props) {
         <div className='col-12'>
           <ul className='list-unstyled'>
             {leaders.map((leader) => (
-              <RenderLeader leader={leader} />
+              <RenderLeader key={leader.id} leader={leader} />
             ))}
           </ul>
         </div>
