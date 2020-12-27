@@ -22,7 +22,7 @@ const HeaderComponent = () => {
             alt='Ristorante Con Fusion'
           />
         </Navbar.Brand>
-        <Navbar.Collapse isOpen={toggle}>
+        <Navbar.Collapse>
           <Nav>
             <Nav.Link>
               <NavLink className='nav-link' to='/home'>

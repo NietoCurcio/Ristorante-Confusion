@@ -15,7 +15,6 @@ const RenderDish = ({ dish }) => {
 }
 
 const RenderComments = ({ arrayComments }) => {
-  console.log('FELIPE ' + JSON.stringify(arrayComments))
   return (
     <div>
       {arrayComments && (

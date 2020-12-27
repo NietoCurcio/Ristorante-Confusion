@@ -7,7 +7,7 @@ function About(props) {
 
   const RenderLeader = ({ leader, key }) => {
     return (
-      <Media key={key} as='li'>
+      <Media as='li'>
         <img
           width={64}
           height={64}
