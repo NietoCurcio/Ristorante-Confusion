@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function About(props) {
   const { leaders } = props
 
-  const RenderLeader = ({ leader, key }) => {
+  const RenderLeader = ({ leader }) => {
     return (
       <Media as='li'>
         <img

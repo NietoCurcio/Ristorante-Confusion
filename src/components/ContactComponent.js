@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Breadcrumb, Form, Button, Col, Alert } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
@@ -46,41 +46,46 @@ const ContactComponent = () => {
     })
   }
 
-  const validate = (firstName, lastName, telNum, email) => {
-    const errors = {
-      firstName: '',
-      lastName: '',
-      telNum: '',
-      email: '',
-    }
+  const validate = useCallback(
+    (firstName, lastName, telNum, email) => {
+      const errors = {
+        firstName: '',
+        lastName: '',
+        telNum: '',
+        email: '',
+      }
 
-    if (state.touched.firstName && firstName.length < 3) {
-      errors.firstName =
-        'First Name should be greater than or equal 3 characters'
-    } else if (state.touched.firstName && firstName.length > 15) {
-      errors.firstName = 'First Name should be less than or equal 15 characters'
-    }
+      if (state.touched.firstName && firstName.length < 3) {
+        errors.firstName =
+          'First Name should be greater than or equal 3 characters'
+      } else if (state.touched.firstName && firstName.length > 15) {
+        errors.firstName =
+          'First Name should be less than or equal 15 characters'
+      }
 
-    if (state.touched.lastName && lastName.length < 3) {
-      errors.lastName = 'Last Name should be greater than or equal 3 characters'
-    } else if (state.touched.lastName && lastName.length > 15) {
-      errors.lastName = 'Last Name should be less than or equal 15 characters'
-    }
+      if (state.touched.lastName && lastName.length < 3) {
+        errors.lastName =
+          'Last Name should be greater than or equal 3 characters'
+      } else if (state.touched.lastName && lastName.length > 15) {
+        errors.lastName = 'Last Name should be less than or equal 15 characters'
+      }
 
-    const reg = /^\d+$/
-    if (state.touched.telNum && !reg.test(telNum)) {
-      errors.telNum = 'Tel. Number should be contain only numbers'
-    }
+      const reg = /^\d+$/
+      if (state.touched.telNum && !reg.test(telNum)) {
+        errors.telNum = 'Tel. Number should be contain only numbers'
+      }
 
-    if (
-      state.touched.email &&
-      (email.indexOf('.') <= 0 || email.indexOf('@') <= 0)
-    ) {
-      errors.email = 'Invalid Email'
-    }
+      if (
+        state.touched.email &&
+        (email.indexOf('.') <= 0 || email.indexOf('@') <= 0)
+      ) {
+        errors.email = 'Invalid Email'
+      }
 
-    setErrors(errors)
-  }
+      setErrors(errors)
+    },
+    [state]
+  )
 
   // We want that validade runs at every time the component update
   // notice that mount or updated is always called in the render method as well as useEffect
@@ -88,11 +93,36 @@ const ContactComponent = () => {
   // So we can do this here
   // the second argument is when we would like to run, or what state we are concerned about being updated
   useEffect(() => {
+    // console.log('Component rendered, run after render (yes mount and update)')
     validate(state.firstName, state.lastName, state.telNum, state.email)
-  }, [state])
+
+    // Notice that when we render our component, the reference of validade will be different
+    // So because validade is a dependency (external call) in our effect, we have 3 approachs:
+    // 1 - put validade in the callback, so we get useEffect(validade(...)), so isn't a dependency
+    // 2 - declare validade within the effect, so isn't a dependecy
+    // 3 - wrap the validate function in useCallback hook, is a dependecy, but only creates a new reference if the dependecies of the validade function changed
+    // otherwise, same input, same output, nothings has changed
+
+    // If don't we got the error:
+    // "The 'validate' function makes the dependencies of useEffect Hook (at line 96) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'validate' in its own useCallback() Hook  react-hooks/exhaustive-deps"
+    // https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook
+
+    // Here is the dependencies of our effect
+    // So notice that if the function was declared inside here, it's not a dependency
+    // Or if we do not want to track changes on the state, and only run at MOUNTING the component (not updating), put an empty array []
+    // because the values (dependencies) will be always the same, (there's no state or props to track)
+
+    // Notice the flow when the component is updated typing something in the form
+    // state update -> render Component (return or render method) -> useEffect (after render) ->
+    // dependency of validade (state, in useCallback changed), so validate changed its reference (dependency of useEffect),
+    // dependency state has changed as well, so we run the effect -> validate update errors state -> render Component -> useEffect doesnt' run
+    // because validate hasn't changed its dependency (state) so do not change its reference, and the state doesn't have changed as well
+    // summary: stateUpdate -> render -> useEffect (dependencies updates)  -> stateUpdate -> render (finish, useEffect's dependecies hasn't changed)
+  }, [validate, state])
 
   return (
     <div className='container'>
+      {/* {console.log('Render Method')} */}
       <div className='row'>
         <Breadcrumb>
           <Breadcrumb.Item>
