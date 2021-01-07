@@ -5,27 +5,24 @@ import Footer from './FooterComponent'
 import Home from './HomeComponent'
 import Contact from './ContactComponent'
 import About from './AboutComponent'
-import { DISHES } from '../shared/dishes'
-import { PROMOTIONS } from '../shared/promotions'
-import { LEADERS } from '../shared/leaders'
-import { COMMENTS } from '../shared/comments'
-import { useState } from 'react'
-import { Switch, Route, Redirect, useParams } from 'react-router-dom'
+import {
+  Switch,
+  Route,
+  Redirect,
+  useParams,
+  withRouter,
+} from 'react-router-dom'
+// why??? "withRouter is necessary to connect the component using react-redux"
+// answer in the bottom
+import { connect } from 'react-redux'
 
-function Main() {
-  const [state, setState] = useState({
-    dishes: DISHES,
-    comments: COMMENTS,
-    leaders: LEADERS,
-    promotions: PROMOTIONS,
-  })
-
+function Main(props) {
   const HomePage = () => {
     return (
       <Home
-        dish={state.dishes.find((dish) => dish.featured)}
-        promotion={state.promotions.find((promotion) => promotion.featured)}
-        leader={state.leaders.find((leader) => leader.featured)}
+        dish={props.dishes.find((dish) => dish.featured)}
+        promotion={props.promotions.find((promotion) => promotion.featured)}
+        leader={props.leaders.find((leader) => leader.featured)}
       />
     )
   }
@@ -36,10 +33,10 @@ function Main() {
     // console.log(params)
     return (
       <Dishdetail
-        dish={state.dishes.find(
+        dish={props.dishes.find(
           (dish) => dish.id === parseInt(match.params.dishId, 10)
         )}
-        comments={state.comments.filter(
+        comments={props.comments.filter(
           (comment) => comment.dishId === Number(params.dishId)
         )}
       />
@@ -50,25 +47,35 @@ function Main() {
     <div>
       <Header />
       <Switch>
-        <Route path='/home' component={HomePage} />
+        <Route path="/home" component={HomePage} />
         <Route
           exact
-          path='/menu'
-          render={(props) => <Menu {...props} dishes={state.dishes} />}
+          path="/menu"
+          // render={(props) => <Menu {...props} dishes={props.dishes} />}
+          /* https://ui.dev/react-router-v4-pass-props-to-components/ & https://reactrouter.com/web/api/Route */
+          component={() => <Menu dishes={props.dishes} />}
         />
-        {/* https://ui.dev/react-router-v4-pass-props-to-components/ & https://reactrouter.com/web/api/Route */}
-        <Route exact path='/menu/:dishId' component={DishWithId} />
-        <Route exact path='/contactus' component={Contact} />
+        <Route exact path="/menu/:dishId" component={DishWithId} />
+        <Route exact path="/contactus" component={Contact} />
         <Route
           exact
-          path='/aboutus'
-          component={() => <About leaders={state.leaders} />}
+          path="/aboutus"
+          component={() => <About leaders={props.leaders} />}
         />
-        <Redirect to='/home' />
+        <Redirect to="/home" />
       </Switch>
       <Footer />
     </div>
   )
 }
 
-export default Main
+const mapStateToProps = (state) => ({
+  dishes: state.dishes,
+  comments: state.comments,
+  promotions: state.promotions,
+  leaders: state.leaders,
+})
+
+// export default withRouter(connect(mapStateToProps, null)(Main)) why withRouter?, search...
+export default connect(mapStateToProps, null)(Main)
+// return the connected component
