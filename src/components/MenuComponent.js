@@ -21,7 +21,7 @@ const MenuComponent = (props) => {
       </Card>
     )
   }
-
+  console.log(props)
   return (
     <div className="container mb-5">
       <div className="row">

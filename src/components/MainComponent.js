@@ -12,7 +12,7 @@ import {
   useParams,
   withRouter,
 } from 'react-router-dom'
-// why??? "withRouter is necessary to connect the component using react-redux"
+// withRouter is necessary to connect the component using react-redux
 // answer in the bottom
 import { connect } from 'react-redux'
 
@@ -43,6 +43,7 @@ function Main(props) {
     )
   }
 
+  const { dishes } = props
   return (
     <div>
       <Header />
@@ -51,9 +52,14 @@ function Main(props) {
         <Route
           exact
           path="/menu"
-          // render={(props) => <Menu {...props} dishes={props.dishes} />}
+          render={(routeProps) => {
+            // console.log('passing props')
+            // console.log(props)
+            // console.log(dishes)
+            return <Menu {...routeProps} dishes={dishes} />
+          }}
           /* https://ui.dev/react-router-v4-pass-props-to-components/ & https://reactrouter.com/web/api/Route */
-          component={() => <Menu dishes={props.dishes} />}
+          // component={() => <Menu {...props} dishes={props.dishes} />}
         />
         <Route exact path="/menu/:dishId" component={DishWithId} />
         <Route exact path="/contactus" component={Contact} />
@@ -76,6 +82,9 @@ const mapStateToProps = (state) => ({
   leaders: state.leaders,
 })
 
-// export default withRouter(connect(mapStateToProps, null)(Main)) why withRouter?, search...
+// export default withRouter(connect(mapStateToProps, null)(Main))
+//  withRouter allows us to access match and history props from react-router-dom in child components
+//  that needs props, like Menu, but since I'm passing these props in {...props} to the Menu component
+// to throught the render router attribute, I can access the route properties, like match and history normally
 export default connect(mapStateToProps, null)(Main)
 // return the connected component
