@@ -25,7 +25,7 @@ const RenderDish = ({ dish }) => {
 const minLength = (length) => (value) => value && value.length >= length
 const maxLength = (length) => (value) => !value || value.length <= length
 
-// note that I chose to use the new react hooks in functio components
+// note that I chose to use the new react hooks in function components
 const CommentForm = () => {
   const [modal, setModal] = useState(false)
 
