@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap'
 import { Control, LocalForm, Errors } from 'react-redux-form'
 import { Link } from 'react-router-dom'
+import Loading from './LoadingComponent'
 
 const RenderDish = ({ dish }) => {
   return (
@@ -145,6 +146,23 @@ const DishdetailComponent = (props) => {
   // "you can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined"
 
   // console.log(dish)
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    )
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{props.errMess}</h4>
+        </div>
+      </div>
+    )
+  }
   return dish ? (
     <div className="container">
       {console.log('Life Cycle DishDetail render')}

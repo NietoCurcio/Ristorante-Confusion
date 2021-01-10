@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Menu from './MenuComponent'
 import Dishdetail from './DishdetailComponent '
 import Header from './HeaderComponent'
@@ -15,13 +16,29 @@ import {
 // withRouter is necessary to connect the component using react-redux
 // answer in the bottom
 import { connect } from 'react-redux'
-import { addComment } from '../redux/actionCreators'
+import { addComment, fetchDishes } from '../redux/actionCreators'
 
 function Main(props) {
+  // "you can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined"
+  // it runs af every re-render, the second argument tracks what state we are concerned
+  useEffect(() => {
+    console.log(props.dishes.isLoading)
+    props.fetchDishes()
+    console.log(
+      'it takes time, we can test when we need some data in the state and immediately use it'
+    )
+    console.log(props.dishes.dishes)
+    console.log(props.dishes.isLoading)
+  }, [])
   const HomePage = () => {
+    console.log('HOME PAGEEEEE')
+    console.log(props.dishes)
+    console.log(props.dishes.dishes)
     return (
       <Home
-        dish={props.dishes.find((dish) => dish.featured)}
+        dish={props.dishes.dishes.find((dish) => dish.featured)}
+        dishesLoading={props.dishes.isLoading}
+        dishesErrMess={props.dishes.errorMessage}
         promotion={props.promotions.find((promotion) => promotion.featured)}
         leader={props.leaders.find((leader) => leader.featured)}
       />
@@ -34,9 +51,11 @@ function Main(props) {
     // console.log(params)
     return (
       <Dishdetail
-        dish={props.dishes.find(
+        dish={props.dishes.dishes.find(
           (dish) => dish.id === parseInt(match.params.dishId, 10)
         )}
+        isLoading={props.dishes.isLoading}
+        errMess={props.dishes.errorMessage}
         comments={props.comments.filter(
           (comment) => comment.dishId === Number(params.dishId)
         )}
@@ -89,6 +108,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addComment: (dishId, rating, author, comment) =>
     dispatch(addComment(dishId, rating, author, comment)),
+  fetchDishes: () => dispatch(fetchDishes()),
 })
 // as a object:
 // const mapDispatchToProps = {
