@@ -15,6 +15,7 @@ import {
 // withRouter is necessary to connect the component using react-redux
 // answer in the bottom
 import { connect } from 'react-redux'
+import { addComment } from '../redux/actionCreators'
 
 function Main(props) {
   const HomePage = () => {
@@ -39,6 +40,7 @@ function Main(props) {
         comments={props.comments.filter(
           (comment) => comment.dishId === Number(params.dishId)
         )}
+        addComment={props.addComment}
       />
     )
   }
@@ -82,9 +84,22 @@ const mapStateToProps = (state) => ({
   leaders: state.leaders,
 })
 
+// https://react-redux.js.org/using-react-redux/connect-mapdispatch
+// for mapDispatchToProps we have 2 approaches, as a function:
+const mapDispatchToProps = (dispatch) => ({
+  addComment: (dishId, rating, author, comment) =>
+    dispatch(addComment(dishId, rating, author, comment)),
+})
+// as a object:
+// const mapDispatchToProps = {
+//   addComment,
+// }
+
 // export default withRouter(connect(mapStateToProps, null)(Main))
 //  withRouter allows us to access match and history props from react-router-dom in child components
 //  that needs props, like Menu, but since I'm passing these props in {...props} to the Menu component
-// to throught the render router attribute, I can access the route properties, like match and history normally
-export default connect(mapStateToProps, null)(Main)
+// through the render router attribute, I can access the route properties, like match and history normally
+// If I were using component= router method and passing a function (not appropriate according router documentation)
+// it would be necessary
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
 // return the connected component

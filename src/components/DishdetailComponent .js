@@ -26,11 +26,12 @@ const minLength = (length) => (value) => value && value.length >= length
 const maxLength = (length) => (value) => !value || value.length <= length
 
 // note that I chose to use the new react hooks in function components
-const CommentForm = () => {
+const CommentForm = (props) => {
   const [modal, setModal] = useState(false)
 
   const handleSubmit = (values) => {
-    alert(JSON.stringify(values))
+    props.addComment(props.dishId, values.rating, values.author, values.comment)
+    modalToggle()
   }
 
   const modalToggle = () => {
@@ -104,7 +105,7 @@ const CommentForm = () => {
   )
 }
 
-const RenderComments = ({ arrayComments }) => {
+const RenderComments = ({ arrayComments, addComment, dishId }) => {
   return (
     <div>
       {arrayComments && (
@@ -124,7 +125,7 @@ const RenderComments = ({ arrayComments }) => {
                 </p>
               </ListGroup.Item>
             ))}
-            <CommentForm />
+            <CommentForm dishId={dishId} addComment={addComment} />
           </ListGroup>
         </Fragment>
       )}
@@ -133,7 +134,7 @@ const RenderComments = ({ arrayComments }) => {
 }
 
 const DishdetailComponent = (props) => {
-  const { dish, comments } = props
+  const { dish, comments, addComment } = props
 
   useEffect(() => {
     console.log('Life Cycle DishDetail useEffect')
@@ -164,7 +165,11 @@ const DishdetailComponent = (props) => {
           <RenderDish dish={dish} />
         </div>
         <div className="col-12 col-sm-12 col-md-5">
-          <RenderComments arrayComments={comments} />
+          <RenderComments
+            arrayComments={comments}
+            addComment={addComment}
+            dishId={dish.id}
+          />
         </div>
       </div>
     </div>
