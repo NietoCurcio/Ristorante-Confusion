@@ -188,8 +188,8 @@ const ContactComponent = () => {
                   model=".firstName"
                   show="touched"
                   messages={{
-                    required: 'Required',
-                    minLength: 'Must be greater than 2 characters',
+                    required: 'Required\n',
+                    minLength: 'Must be greater than 2 characters\n',
                     maxLength: 'Must be 15 characters or less',
                   }}
                 />
@@ -226,8 +226,8 @@ const ContactComponent = () => {
                   model=".lastName"
                   show="touched"
                   messages={{
-                    required: 'Required',
-                    minLength: 'Must be greater than 2 characters',
+                    required: 'Required\n',
+                    minLength: 'Must be greater than 2 characters\n',
                     maxLength: 'Must be 15 characters or less',
                   }}
                 />
@@ -258,9 +258,9 @@ const ContactComponent = () => {
                 model=".telNum"
                 show="touched"
                 messages={{
-                  required: 'Required',
-                  minLength: 'Must be greater than 2 numbers',
-                  maxLength: 'Must be 15 numbers or less',
+                  required: 'Required\n',
+                  minLength: 'Must be greater than 2 numbers\n',
+                  maxLength: 'Must be 15 numbers or less\n',
                   isNumber: 'Must be a number',
                 }}
               />
@@ -287,7 +287,7 @@ const ContactComponent = () => {
                   model=".email"
                   show="touched"
                   messages={{
-                    required: 'Required',
+                    required: 'Required\n',
                     validEmail: 'Invalid Email Address',
                   }}
                 />
