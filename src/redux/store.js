@@ -1,6 +1,17 @@
-import { createStore } from 'redux';
-import { Reducer } from './reducer';
+import { createStore, combineReducers } from 'redux'
+import { Dishes } from './dishesReducer'
+import { Comments } from './commentsReducer'
+import { Promotions } from './promotionsReducer'
+import { Leaders } from './leadersReducer'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
-const store = createStore(Reducer);
+const rootReducer = combineReducers({
+  dishes: Dishes,
+  comments: Comments,
+  promotions: Promotions,
+  leaders: Leaders,
+})
+
+const store = createStore(rootReducer, composeWithDevTools())
 // initialState is optional, since it's defined in the reducer everything is okay
-export default store;
+export default store
