@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Breadcrumb, Form, Button, Col, Row } from 'react-bootstrap'
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Row,
+  Form as FormBoostrap,
+} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Control, LocalForm, Errors } from 'react-redux-form'
+import { Control, Form, Errors, actions } from 'react-redux-form'
 
 const required = (value) => value && value.length
 const maxLength = (length) => (value) => !value || value.length <= length
@@ -11,9 +17,10 @@ const isNumber = (value) => !isNaN(Number(value))
 const validEmail = (value) =>
   /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
 
-const ContactComponent = () => {
+const ContactComponent = (props) => {
   const handleSubmit = (values) => {
-    console.log(values)
+    alert(values)
+    props.resetFeedbackForm()
   }
 
   // const validate = useCallback(
@@ -160,11 +167,11 @@ const ContactComponent = () => {
           <h3>Send Us Your Feedback</h3>
         </div>
         <div className="col-12 col-md-9">
-          <LocalForm onSubmit={(values) => handleSubmit(values)}>
+          <Form model="feedback" onSubmit={(values) => handleSubmit(values)}>
             <Row className="mb-4 form-group">
-              <Form.Label column lg={2} htmlFor="firstName">
+              <FormBoostrap.Label column lg={2} htmlFor="firstName">
                 First Name
-              </Form.Label>
+              </FormBoostrap.Label>
               <Col>
                 <Control.text
                   model=".firstName"
@@ -205,9 +212,9 @@ const ContactComponent = () => {
             </Row>
 
             <Row className="mb-4 form-group">
-              <Form.Label column lg={2} htmlFor="lastName">
+              <FormBoostrap.Label column lg={2} htmlFor="lastName">
                 Last Name
-              </Form.Label>
+              </FormBoostrap.Label>
               <Col>
                 <Control.text
                   model=".lastName"
@@ -235,9 +242,9 @@ const ContactComponent = () => {
             </Row>
 
             <Row className="mb-4 form-group">
-              <Form.Label column lg={2} htmlFor="telNum">
+              <FormBoostrap.Label column lg={2} htmlFor="telNum">
                 Contact Tel.
-              </Form.Label>
+              </FormBoostrap.Label>
               <Col>
                 <Control.text
                   model=".telNum"
@@ -267,9 +274,9 @@ const ContactComponent = () => {
             </Row>
 
             <Row className="mb-4 form-group">
-              <Form.Label column lg={2} htmlFor="email">
+              <FormBoostrap.Label column lg={2} htmlFor="email">
                 Email
-              </Form.Label>
+              </FormBoostrap.Label>
               <Col>
                 <Control.text
                   model=".email"
@@ -304,9 +311,9 @@ const ContactComponent = () => {
                     id="agree"
                     label="May we contact you?"
                   />
-                  <Form.Label htmlFor="agree">
+                  <FormBoostrap.Label htmlFor="agree">
                     <strong>May we contact you?</strong>
-                  </Form.Label>
+                  </FormBoostrap.Label>
                 </div>
               </Col>
               <Col md={{ size: 3, offset: 1 }} className="mt-2">
@@ -322,9 +329,9 @@ const ContactComponent = () => {
             </Row>
 
             <Row className="mb-4 form-group">
-              <Form.Label column lg={2} htmlFor="message">
+              <FormBoostrap.Label column lg={2} htmlFor="message">
                 Your Feedback
-              </Form.Label>
+              </FormBoostrap.Label>
               <Col>
                 <Control.textarea
                   model=".message"
@@ -344,7 +351,7 @@ const ContactComponent = () => {
                 </Button>
               </Col>
             </Row>
-          </LocalForm>
+          </Form>
         </div>
       </div>
     </div>

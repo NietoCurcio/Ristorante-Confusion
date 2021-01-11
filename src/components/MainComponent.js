@@ -19,6 +19,7 @@ import {
 import { connect } from 'react-redux'
 import { addComment, fetchDishes } from '../redux/actionCreators'
 import { useStore, useDispatch } from 'react-redux'
+import { actions } from 'react-redux-form'
 
 function Main(props) {
   // "you can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined"
@@ -88,7 +89,16 @@ function Main(props) {
           // component={() => <Menu {...props} dishes={props.dishes} />}
         />
         <Route exact path="/menu/:dishId" component={DishWithId} />
-        <Route exact path="/contactus" component={Contact} />
+        <Route
+          exact
+          path="/contactus"
+          render={(routeProps) => (
+            <Contact
+              {...routeProps}
+              resetFeedbackForm={props.resetFeedbackForm}
+            />
+          )}
+        />
         <Route
           exact
           path="/aboutus"
@@ -114,6 +124,7 @@ const mapDispatchToProps = (dispatch) => ({
   addComment: (dishId, rating, author, comment) =>
     dispatch(addComment(dishId, rating, author, comment)),
   fetchDishes: () => dispatch(fetchDishes()),
+  resetFeedbackForm: () => dispatch(actions.reset('feedback')),
 })
 // as a object:
 // const mapDispatchToProps = {

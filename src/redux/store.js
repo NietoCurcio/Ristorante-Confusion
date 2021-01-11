@@ -6,12 +6,17 @@ import { Leaders } from './leadersReducer'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
+import { createForms } from 'react-redux-form'
+import { InitialFeedback } from './forms'
 
 const rootReducer = combineReducers({
   dishes: Dishes,
   comments: Comments,
   promotions: Promotions,
   leaders: Leaders,
+  ...createForms({
+    feedback: InitialFeedback,
+  }),
 })
 
 const middleware = [thunk, logger]
