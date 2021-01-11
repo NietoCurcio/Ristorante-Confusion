@@ -7,7 +7,7 @@ const RenderCard = ({ item, isLoading, errMessage }) => {
   if (isLoading) {
     return <Loading />
   } else if (errMessage) {
-    return <h4>{erroMessage}</h4>
+    return <h4>{errMessage}</h4>
   } else {
     return (
       <Card>

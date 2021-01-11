@@ -11,14 +11,22 @@ export const addComment = (dishId, rating, author, comment) => ({
   },
 })
 
-export const fetchDishes = () => (dispatch, getState) => {
-  console.log('My thunk')
-  console.log(getState())
+export const fetchDishes = () => async (dispatch) => {
   dispatch(dishesLoading(true))
-
-  setTimeout(() => {
-    dispatch(addDishes(DISHES))
-  }, 2000)
+  // setTimeout(() => {
+  //   dispatch(addDishes(DISHES))
+  // }, 2000)
+  function delay() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(DISHES)
+      }, 2000)
+    })
+  }
+  const response = await delay()
+  console.log('REPONSESE')
+  console.log(response)
+  dispatch(addDishes(response))
 }
 
 export const dishesLoading = () => ({

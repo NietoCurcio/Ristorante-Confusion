@@ -11,29 +11,34 @@ import {
   Route,
   Redirect,
   useParams,
+  // eslint-disable-next-line
   withRouter,
 } from 'react-router-dom'
 // withRouter is necessary to connect the component using react-redux
 // answer in the bottom
 import { connect } from 'react-redux'
 import { addComment, fetchDishes } from '../redux/actionCreators'
+import { useStore, useDispatch } from 'react-redux'
 
 function Main(props) {
   // "you can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined"
   // it runs af every re-render, the second argument tracks what state we are concerned
+  const store = useStore()
+  const dispatch = useDispatch()
+  const { fetchDishes } = props
   useEffect(() => {
-    console.log(props.dishes.isLoading)
-    props.fetchDishes()
-    console.log(
-      'it takes time, we can test when we need some data in the state and immediately use it'
-    )
-    console.log(props.dishes.dishes)
-    console.log(props.dishes.isLoading)
-  }, [])
+    async function fetchData() {
+      console.log('it takes time, test state update and async function')
+      console.log(store.getState().dishes)
+      console.log('AFTER AWAIT')
+      await fetchDishes()
+      console.log(store.getState().dishes)
+    }
+    fetchData()
+    // eslint-disable-next-line
+    // fetchDishes()
+  }, [fetchDishes])
   const HomePage = () => {
-    console.log('HOME PAGEEEEE')
-    console.log(props.dishes)
-    console.log(props.dishes.dishes)
     return (
       <Home
         dish={props.dishes.dishes.find((dish) => dish.featured)}
