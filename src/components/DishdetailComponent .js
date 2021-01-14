@@ -10,11 +10,12 @@ import {
 import { Control, LocalForm, Errors } from 'react-redux-form'
 import { Link } from 'react-router-dom'
 import Loading from './LoadingComponent'
+import { baseUrl } from '../shared/baseURL'
 
 const RenderDish = ({ dish }) => {
   return (
     <Card>
-      <Card.Img variant="top" src={dish.image} alt={dish.name} />
+      <Card.Img variant="top" src={baseUrl + dish.image} alt={dish.name} />
       <Card.Body>
         <Card.Title>{dish.name}</Card.Title>
         <Card.Text>{dish.description}</Card.Text>

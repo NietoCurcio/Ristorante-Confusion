@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Card, Breadcrumb } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Loading from './LoadingComponent'
+import { baseUrl } from '../shared/baseURL'
 
 const MenuComponent = (props) => {
   useEffect(() => {
@@ -14,7 +15,7 @@ const MenuComponent = (props) => {
         {/* prof 'onClick' as props approach - a function that call another arrow function passing arguments that calls onSelectedDishe using those arguments */}
         {/* mine approach - a function that calls onSelectedDishe passing arguments */}
         <Link to={`/menu/${dish.id}`}>
-          <Card.Img variant="top" src={dish.image} alt={dish.name} />
+          <Card.Img variant="top" src={baseUrl + dish.image} alt={dish.name} />
           <Card.Body className="ml-5">
             <Card.Title>{dish.name}</Card.Title>
           </Card.Body>

@@ -17,7 +17,12 @@ import {
 // withRouter is necessary to connect the component using react-redux
 // answer in the bottom
 import { connect } from 'react-redux'
-import { addComment, fetchDishes } from '../redux/actionCreators'
+import {
+  addComment,
+  fetchDishes,
+  fetchComments,
+  fetchPromos,
+} from '../redux/actionCreators'
 import { useStore, useDispatch } from 'react-redux'
 import { actions } from 'react-redux-form'
 
@@ -26,26 +31,33 @@ function Main(props) {
   // it runs af every re-render, the second argument tracks what state we are concerned
   const store = useStore()
   const dispatch = useDispatch()
-  const { fetchDishes } = props
+  const { fetchDishes, fetchComments, fetchPromos } = props
   useEffect(() => {
     async function fetchData() {
-      console.log('it takes time, test state update and async function')
-      console.log(store.getState().dishes)
-      console.log('AFTER AWAIT')
-      await fetchDishes()
-      console.log(store.getState().dishes)
+      // console.log('it takes time, test state update and async function')
+      // console.log(store.getState().dishes)
+      // console.log('AFTER AWAIT')
+      // await fetchDishes()
+      fetchDishes()
+      fetchComments()
+      fetchPromos()
+      // console.log(store.getState().dishes)
     }
     fetchData()
     // eslint-disable-next-line
     // fetchDishes()
-  }, [fetchDishes])
+  }, [fetchDishes, fetchComments, fetchPromos])
   const HomePage = () => {
     return (
       <Home
         dish={props.dishes.dishes.find((dish) => dish.featured)}
         dishesLoading={props.dishes.isLoading}
         dishesErrMess={props.dishes.errorMessage}
-        promotion={props.promotions.find((promotion) => promotion.featured)}
+        promotion={props.promotions.promotions.find(
+          (promotion) => promotion.featured
+        )}
+        promosLoading={props.promotions.isLoading}
+        promosErrMess={props.promotions.errorMessage}
         leader={props.leaders.find((leader) => leader.featured)}
       />
     )
@@ -62,9 +74,10 @@ function Main(props) {
         )}
         isLoading={props.dishes.isLoading}
         errMess={props.dishes.errorMessage}
-        comments={props.comments.filter(
+        comments={props.comments.comments.filter(
           (comment) => comment.dishId === Number(params.dishId)
         )}
+        commentsErrMess={props.comments.errorMessage}
         addComment={props.addComment}
       />
     )
@@ -121,6 +134,8 @@ const mapStateToProps = (state) => ({
 // https://react-redux.js.org/using-react-redux/connect-mapdispatch
 // for mapDispatchToProps we have 2 approaches, as a function:
 const mapDispatchToProps = (dispatch) => ({
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromos: () => dispatch(fetchPromos()),
   addComment: (dishId, rating, author, comment) =>
     dispatch(addComment(dishId, rating, author, comment)),
   fetchDishes: () => dispatch(fetchDishes()),
