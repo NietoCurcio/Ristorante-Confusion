@@ -18,7 +18,7 @@ import {
 // answer in the bottom
 import { connect } from 'react-redux'
 import {
-  addComment,
+  postComment,
   fetchDishes,
   fetchComments,
   fetchPromos,
@@ -64,6 +64,9 @@ function Main(props) {
   }
 
   const DishWithId = ({ match }) => {
+    // Reading react router that may not be appropriate, create a component with that just returns another
+    // component to deal the component react router attribute, because of the parent child relationship, when
+    // we have an update to the state react has to re-render two components (parent DishWithId and child DishDetail)
     const params = useParams()
     // console.log(JSON.stringify(match))
     // console.log(params)
@@ -78,7 +81,7 @@ function Main(props) {
           (comment) => comment.dishId === Number(params.dishId)
         )}
         commentsErrMess={props.comments.errorMessage}
-        addComment={props.addComment}
+        postComment={props.postComment}
       />
     )
   }
@@ -136,8 +139,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchComments: () => dispatch(fetchComments()),
   fetchPromos: () => dispatch(fetchPromos()),
-  addComment: (dishId, rating, author, comment) =>
-    dispatch(addComment(dishId, rating, author, comment)),
+  postComment: (dishId, rating, author, comment) =>
+    dispatch(postComment(dishId, rating, author, comment)),
   fetchDishes: () => dispatch(fetchDishes()),
   resetFeedbackForm: () => dispatch(actions.reset('feedback')),
 })

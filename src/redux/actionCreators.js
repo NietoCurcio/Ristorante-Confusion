@@ -2,15 +2,52 @@ import * as ActionTypes from './actionTypes'
 import { DISHES } from '../shared/dishes'
 import { baseUrl } from '../shared/baseURL'
 
-export const addComment = (dishId, rating, author, comment) => ({
+export const addComment = (comment) => ({
   type: ActionTypes.ADD_COMMENT,
-  payload: {
+  payload: comment,
+})
+
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+  const newComment = {
     dishId,
     rating,
     author,
     comment,
-  },
-})
+  }
+  newComment.date = new Date().toISOString()
+
+  fetch(baseUrl + 'commentsewqweq', {
+    method: 'POST',
+    body: JSON.stringify(newComment),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+  })
+    .then(
+      (response) => {
+        if (response.ok) return response
+        else {
+          console.log('response is not ok ' + response.ok + response.status)
+          let error = new Error(
+            'Error ' + response.status + ': ' + response.statusText
+          )
+          error.response = response
+          throw error
+        }
+      },
+      (error) => {
+        let errMsg = new Error(error.message)
+        throw errMsg
+      }
+    )
+    .then((response) => response.json())
+    .then((comment) => dispatch(addComment(comment)))
+    .catch((error) => {
+      console.log(console.log('Post comments ', error.message))
+      alert('Your Comment could not be posted\nError: ' + error.message)
+    })
+}
 
 export const fetchDishes = () => async (dispatch) => {
   dispatch(dishesLoading(true))
@@ -72,8 +109,6 @@ export const fetchComments = () => async (dispatch) => {
   fetch(baseUrl + 'comments')
     .then(
       (response) => {
-        // here is when we get a response from the server
-        console.log('First argument promise (we get a response)')
         if (response.ok) return response
         else {
           let error = new Error(
@@ -84,8 +119,6 @@ export const fetchComments = () => async (dispatch) => {
         }
       },
       (error) => {
-        // when we do not hear anything from the server, test with the server not runing
-        console.log('Second argument promise')
         let errMsg = new Error(error.message)
         throw errMsg
       }
@@ -93,7 +126,6 @@ export const fetchComments = () => async (dispatch) => {
     .then((response) => response.json())
     .then((comments) => dispatch(addComments(comments)))
     .catch((error) => {
-      console.log('Catch rejected promise')
       dispatch(commentsFailed(error.message))
     })
 }
@@ -115,8 +147,6 @@ export const fetchPromos = () => async (dispatch) => {
   fetch(baseUrl + 'promotions')
     .then(
       (response) => {
-        // here is when we get a response from the server
-        console.log('First argument promise (we get a response)')
         if (response.ok) return response
         else {
           let error = new Error(
@@ -127,8 +157,6 @@ export const fetchPromos = () => async (dispatch) => {
         }
       },
       (error) => {
-        // when we do not hear anything from the server, test with the server not runing
-        console.log('Second argument promise')
         let errMsg = new Error(error.message)
         throw errMsg
       }
@@ -136,7 +164,6 @@ export const fetchPromos = () => async (dispatch) => {
     .then((response) => response.json())
     .then((promos) => dispatch(addPromos(promos)))
     .catch((error) => {
-      console.log('Catch rejected promise')
       dispatch(promosFailed(error.message))
     })
 }

@@ -32,7 +32,12 @@ const CommentForm = (props) => {
   const [modal, setModal] = useState(false)
 
   const handleSubmit = (values) => {
-    props.addComment(props.dishId, values.rating, values.author, values.comment)
+    props.postComment(
+      props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    )
     modalToggle()
   }
 
@@ -107,7 +112,7 @@ const CommentForm = (props) => {
   )
 }
 
-const RenderComments = ({ arrayComments, addComment, dishId }) => {
+const RenderComments = ({ arrayComments, postComment, dishId }) => {
   return (
     <div>
       {arrayComments && (
@@ -127,7 +132,7 @@ const RenderComments = ({ arrayComments, addComment, dishId }) => {
                 </p>
               </ListGroup.Item>
             ))}
-            <CommentForm dishId={dishId} addComment={addComment} />
+            <CommentForm dishId={dishId} postComment={postComment} />
           </ListGroup>
         </Fragment>
       )}
@@ -136,7 +141,7 @@ const RenderComments = ({ arrayComments, addComment, dishId }) => {
 }
 
 const DishdetailComponent = (props) => {
-  const { dish, comments, addComment } = props
+  const { dish, comments, postComment } = props
 
   useEffect(() => {
     console.log('Life Cycle DishDetail useEffect')
@@ -186,7 +191,7 @@ const DishdetailComponent = (props) => {
         <div className="col-12 col-sm-12 col-md-5">
           <RenderComments
             arrayComments={comments}
-            addComment={addComment}
+            postComment={postComment}
             dishId={dish.id}
           />
         </div>
