@@ -41,12 +41,17 @@ const CommentForm = (props) => {
     modalToggle()
   }
 
+  useEffect(() => {
+    console.log('Effect life cycle method comment form')
+  }, [modal])
+
   const modalToggle = () => {
     setModal(!modal)
   }
 
   return (
     <Fragment>
+      {console.log('Render life cycle method comment form')}
       <Button variant="primary" className="inline my-2" onClick={modalToggle}>
         <i className="fa fa-pencil"></i> Submit Comment
       </Button>
