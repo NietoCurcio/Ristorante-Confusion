@@ -24,8 +24,34 @@ export const fetchDishes = () => async (dispatch) => {
   // const response = await delay()
   // dispatch(addDishes(response))
   fetch(baseUrl + 'dishes')
+    .then(
+      (response) => {
+        // here is when we get a response from the server
+        console.log('First argument promise (we get a response)')
+        if (response.ok) return response
+        else {
+          console.log('reponse is not ok ' + response.ok + response.status)
+          let error = new Error(
+            'Error ' + response.status + ': ' + response.statusText
+          )
+          error.response = response
+          throw error
+        }
+      },
+      (error) => {
+        // when we do not hear anything from the server, test with the server not runing
+        console.log('Second argument promise')
+        let errMsg = new Error(error.message)
+        throw errMsg
+      }
+    )
     .then((response) => response.json())
     .then((dishes) => dispatch(addDishes(dishes)))
+    .catch((error) => {
+      console.log('Catch rejected promise')
+      console.log(error)
+      dispatch(dishesFailed(error.message))
+    })
 }
 
 export const dishesLoading = () => ({
@@ -44,8 +70,32 @@ export const addDishes = (dishes) => ({
 
 export const fetchComments = () => async (dispatch) => {
   fetch(baseUrl + 'comments')
+    .then(
+      (response) => {
+        // here is when we get a response from the server
+        console.log('First argument promise (we get a response)')
+        if (response.ok) return response
+        else {
+          let error = new Error(
+            'Error ' + response.status + ': ' + response.statusText
+          )
+          error.response = response
+          throw error
+        }
+      },
+      (error) => {
+        // when we do not hear anything from the server, test with the server not runing
+        console.log('Second argument promise')
+        let errMsg = new Error(error.message)
+        throw errMsg
+      }
+    )
     .then((response) => response.json())
     .then((comments) => dispatch(addComments(comments)))
+    .catch((error) => {
+      console.log('Catch rejected promise')
+      dispatch(commentsFailed(error.message))
+    })
 }
 
 export const commentsFailed = (error) => ({
@@ -63,8 +113,32 @@ export const addComments = (comments) => {
 export const fetchPromos = () => async (dispatch) => {
   dispatch(promosLoading(true))
   fetch(baseUrl + 'promotions')
+    .then(
+      (response) => {
+        // here is when we get a response from the server
+        console.log('First argument promise (we get a response)')
+        if (response.ok) return response
+        else {
+          let error = new Error(
+            'Error ' + response.status + ': ' + response.statusText
+          )
+          error.response = response
+          throw error
+        }
+      },
+      (error) => {
+        // when we do not hear anything from the server, test with the server not runing
+        console.log('Second argument promise')
+        let errMsg = new Error(error.message)
+        throw errMsg
+      }
+    )
     .then((response) => response.json())
     .then((promos) => dispatch(addPromos(promos)))
+    .catch((error) => {
+      console.log('Catch rejected promise')
+      dispatch(promosFailed(error.message))
+    })
 }
 
 export const promosLoading = () => ({
