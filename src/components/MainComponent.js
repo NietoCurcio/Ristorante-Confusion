@@ -11,7 +11,6 @@ import {
   Route,
   Redirect,
   useParams,
-  // eslint-disable-next-line
   withRouter,
 } from 'react-router-dom'
 // withRouter is necessary to connect the component using react-redux
@@ -25,6 +24,7 @@ import {
 } from '../redux/actionCreators'
 import { useStore, useDispatch } from 'react-redux'
 import { actions } from 'react-redux-form'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 function Main(props) {
   // "you can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined"
@@ -90,38 +90,43 @@ function Main(props) {
   return (
     <div>
       <Header />
-      <Switch>
-        <Route path="/home" component={HomePage} />
-        <Route
-          exact
-          path="/menu"
-          render={(routeProps) => {
-            // console.log('passing props')
-            // console.log(props)
-            // console.log(dishes)
-            return <Menu {...routeProps} dishes={dishes} />
-          }}
-          /* https://ui.dev/react-router-v4-pass-props-to-components/ & https://reactrouter.com/web/api/Route */
-          // component={() => <Menu {...props} dishes={props.dishes} />}
-        />
-        <Route exact path="/menu/:dishId" component={DishWithId} />
-        <Route
-          exact
-          path="/contactus"
-          render={(routeProps) => (
-            <Contact
-              {...routeProps}
-              resetFeedbackForm={props.resetFeedbackForm}
+      <TransitionGroup>
+        {console.log(props)}
+        <CSSTransition key={props.location.key} classNames="page" timeout={300}>
+          <Switch>
+            <Route path="/home" component={HomePage} />
+            <Route
+              exact
+              path="/menu"
+              render={(routeProps) => {
+                // console.log('passing props')
+                // console.log(props)
+                // console.log(dishes)
+                return <Menu {...routeProps} dishes={dishes} />
+              }}
+              /* https://ui.dev/react-router-v4-pass-props-to-components/ & https://reactrouter.com/web/api/Route */
+              // component={() => <Menu {...props} dishes={props.dishes} />}
             />
-          )}
-        />
-        <Route
-          exact
-          path="/aboutus"
-          component={() => <About leaders={props.leaders} />}
-        />
-        <Redirect to="/home" />
-      </Switch>
+            <Route exact path="/menu/:dishId" component={DishWithId} />
+            <Route
+              exact
+              path="/contactus"
+              render={(routeProps) => (
+                <Contact
+                  {...routeProps}
+                  resetFeedbackForm={props.resetFeedbackForm}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/aboutus"
+              component={() => <About leaders={props.leaders} />}
+            />
+            <Redirect to="/home" />
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>
       <Footer />
     </div>
   )
@@ -149,11 +154,12 @@ const mapDispatchToProps = (dispatch) => ({
 //   addComment,
 // }
 
-// export default withRouter(connect(mapStateToProps, null)(Main))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main))
 //  withRouter allows us to access match and history props from react-router-dom in child components
 //  that needs props, like Menu, but since I'm passing these props in {...props} to the Menu component
 // through the render router attribute, I can access the route properties, like match and history normally
 // If I were using component= router method and passing a function (not appropriate according router documentation)
 // it would be necessary
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
+// UPDATE knowing that we need to use props.location, it was necessary bring this object
+// export default connect(mapStateToProps, mapDispatchToProps)(Main)
 // return the connected component
