@@ -223,7 +223,7 @@ export const addLeaders = (leaders) => ({
 })
 
 export const postFeedback = (feedback) => (dispatch) => {
-  fetch(baseUrl + 'feedback', {
+  return fetch(baseUrl + 'feedback', {
     method: 'POST',
     body: JSON.stringify(feedback),
     headers: {
@@ -248,7 +248,7 @@ export const postFeedback = (feedback) => (dispatch) => {
       }
     )
     .then((response) => response.json())
-    .then((feedback) => alert(JSON.stringify(feedback)))
+    .then((feedback) => JSON.stringify(feedback))
     .catch((error) => {
       alert('Feedback could not be posted\nError: ' + error.message)
     })
