@@ -11,16 +11,22 @@ import { Control, LocalForm, Errors } from 'react-redux-form'
 import { Link } from 'react-router-dom'
 import Loading from './LoadingComponent'
 import { baseUrl } from '../shared/baseURL'
+import { FadeTransform, Fade, Stagger } from 'react-animation-components'
 
 const RenderDish = ({ dish }) => {
   return (
-    <Card>
-      <Card.Img variant="top" src={baseUrl + dish.image} alt={dish.name} />
-      <Card.Body>
-        <Card.Title>{dish.name}</Card.Title>
-        <Card.Text>{dish.description}</Card.Text>
-      </Card.Body>
-    </Card>
+    <FadeTransform
+      in
+      transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}
+    >
+      <Card>
+        <Card.Img variant="top" src={baseUrl + dish.image} alt={dish.name} />
+        <Card.Body>
+          <Card.Title>{dish.name}</Card.Title>
+          <Card.Text>{dish.description}</Card.Text>
+        </Card.Body>
+      </Card>
+    </FadeTransform>
   )
 }
 
@@ -124,19 +130,23 @@ const RenderComments = ({ arrayComments, postComment, dishId }) => {
         <Fragment>
           <h4>Comments</h4>
           <ListGroup className="list-unstyled" variant="flush">
-            {arrayComments.map((comment) => (
-              <ListGroup.Item key={comment.id}>
-                <p>{comment.comment}</p>
-                <p>
-                  -- {comment.author},{' '}
-                  {new Intl.DateTimeFormat('pt-BR', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: '2-digit',
-                  }).format(new Date(comment.date))}
-                </p>
-              </ListGroup.Item>
-            ))}
+            <Stagger in>
+              {arrayComments.map((comment) => (
+                <Fade in>
+                  <ListGroup.Item key={comment.id}>
+                    <p>{comment.comment}</p>
+                    <p>
+                      -- {comment.author},{' '}
+                      {new Intl.DateTimeFormat('pt-BR', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: '2-digit',
+                      }).format(new Date(comment.date))}
+                    </p>
+                  </ListGroup.Item>
+                </Fade>
+              ))}
+            </Stagger>
             <CommentForm dishId={dishId} postComment={postComment} />
           </ListGroup>
         </Fragment>
