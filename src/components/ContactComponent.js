@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React from 'react'
 import {
   Breadcrumb,
   Button,
@@ -7,7 +7,7 @@ import {
   Form as FormBoostrap,
 } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Control, Form, Errors, actions } from 'react-redux-form'
+import { Control, Form, Errors } from 'react-redux-form'
 
 const required = (value) => value && value.length
 const maxLength = (length) => (value) => !value || value.length <= length
@@ -173,6 +173,7 @@ const ContactComponent = (props) => {
                 First Name
               </FormBoostrap.Label>
               <Col>
+                {/* eslint-disable-next-line */}
                 <Control.text
                   model=".firstName"
                   className="form-control"
@@ -216,6 +217,7 @@ const ContactComponent = (props) => {
                 Last Name
               </FormBoostrap.Label>
               <Col>
+                {/* eslint-disable-next-line */}
                 <Control.text
                   model=".lastName"
                   className="form-control"
@@ -246,6 +248,7 @@ const ContactComponent = (props) => {
                 Contact Tel.
               </FormBoostrap.Label>
               <Col>
+                {/* eslint-disable-next-line */}
                 <Control.text
                   model=".telNum"
                   className="form-control"
@@ -278,6 +281,7 @@ const ContactComponent = (props) => {
                 Email
               </FormBoostrap.Label>
               <Col>
+                {/* eslint-disable-next-line */}
                 <Control.text
                   model=".email"
                   id="email"
@@ -304,6 +308,7 @@ const ContactComponent = (props) => {
             <Row className="mb-4">
               <Col md={{ size: 6, offset: 2 }} className="mt-3">
                 <div className="form-check">
+                  {/* eslint-disable-next-line */}
                   <Control.checkbox
                     model=".agree"
                     className="form-check-input"
@@ -317,6 +322,7 @@ const ContactComponent = (props) => {
                 </div>
               </Col>
               <Col md={{ size: 3, offset: 1 }} className="mt-2">
+                {/* eslint-disable-next-line */}
                 <Control.select
                   model=".contactType"
                   className="form-control"
@@ -333,6 +339,7 @@ const ContactComponent = (props) => {
                 Your Feedback
               </FormBoostrap.Label>
               <Col>
+                {/* eslint-disable-next-line */}
                 <Control.textarea
                   model=".message"
                   className="form-control"

@@ -17,7 +17,11 @@ const RenderCard = ({ item, isLoading, errMessage }) => {
         transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}
       >
         <Card>
-          <Card.Img variant="top" src={baseUrl + item.image} alt={item.name} />
+          <Card.Img
+            variant="top"
+            src={baseUrl + '/assets/' + item.image}
+            alt={item.name}
+          />
           <Card.Body>
             <Card.Title>{item.name}</Card.Title>
             {item.designation ? (

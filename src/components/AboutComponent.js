@@ -13,7 +13,7 @@ function About(props) {
           width={64}
           height={64}
           className="align-self-start mr-3"
-          src={baseUrl + leader.image}
+          src={baseUrl + '/assets/' + leader.image}
           alt={leader.name}
         />
         <Media.Body>

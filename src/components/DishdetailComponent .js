@@ -20,7 +20,11 @@ const RenderDish = ({ dish }) => {
       transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}
     >
       <Card>
-        <Card.Img variant="top" src={baseUrl + dish.image} alt={dish.name} />
+        <Card.Img
+          variant="top"
+          src={baseUrl + '/assets/' + dish.image}
+          alt={dish.name}
+        />
         <Card.Body>
           <Card.Title>{dish.name}</Card.Title>
           <Card.Text>{dish.description}</Card.Text>
