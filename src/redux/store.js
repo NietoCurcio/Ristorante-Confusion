@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
   }),
 })
 
-const middleware = [thunk, logger]
+// const middleware = [thunk, logger]
+const middleware = [thunk]
 
 const store = createStore(
   rootReducer,

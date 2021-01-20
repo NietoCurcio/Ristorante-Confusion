@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Breadcrumb, Card, Media } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import Loading from './LoadingComponent'
+import { baseUrl } from '../shared/baseURL'
+import { Fade, Stagger } from 'react-animation-components'
 
 function About(props) {
-  const { leaders } = props
-
   const RenderLeader = ({ leader }) => {
     return (
-      <Media as='li'>
+      <Media as="li">
         <img
           width={64}
           height={64}
-          className='align-self-start mr-3'
-          src={leader.image}
+          className="align-self-start mr-3"
+          src={baseUrl + leader.image}
           alt={leader.name}
         />
         <Media.Body>
@@ -24,22 +25,27 @@ function About(props) {
     )
   }
 
+  const {
+    leaders: { leaders, isLoading, errorMessage },
+  } = props
+  console.log('ABOUT US COMP')
+  console.log(isLoading)
   return (
-    <div className='container'>
-      <div className='row'>
+    <div className="container">
+      <div className="row">
         <Breadcrumb>
           <Breadcrumb.Item>
-            <Link to='/home'>Home</Link>
+            <Link to="/home">Home</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item active>About Us</Breadcrumb.Item>
         </Breadcrumb>
-        <div className='col-12'>
+        <div className="col-12">
           <h3>About Us</h3>
           <hr />
         </div>
       </div>
-      <div className='row row-content'>
-        <div className='col-12 col-md-6'>
+      <div className="row row-content">
+        <div className="col-12 col-md-6">
           <h2>Our History</h2>
           <p>
             Started in 2010, Ristorante con Fusion quickly established itself as
@@ -56,36 +62,36 @@ function About(props) {
             cuisines in a pan.
           </p>
         </div>
-        <div className='col-12 col-md-5'>
+        <div className="col-12 col-md-5">
           <Card>
-            <Card.Header className='bg-primary text-white'>
+            <Card.Header className="bg-primary text-white">
               Facts At a Glance
             </Card.Header>
             <Card.Body>
-              <dl className='row p-1'>
-                <dt className='col-6'>Started</dt>
-                <dd className='col-6'>3 Feb. 2013</dd>
-                <dt className='col-6'>Major Stake Holder</dt>
-                <dd className='col-6'>HK Fine Foods Inc.</dd>
-                <dt className='col-6'>Last Year's Turnover</dt>
-                <dd className='col-6'>$1,250,375</dd>
-                <dt className='col-6'>Employees</dt>
-                <dd className='col-6'>40</dd>
+              <dl className="row p-1">
+                <dt className="col-6">Started</dt>
+                <dd className="col-6">3 Feb. 2013</dd>
+                <dt className="col-6">Major Stake Holder</dt>
+                <dd className="col-6">HK Fine Foods Inc.</dd>
+                <dt className="col-6">Last Year's Turnover</dt>
+                <dd className="col-6">$1,250,375</dd>
+                <dt className="col-6">Employees</dt>
+                <dd className="col-6">40</dd>
               </dl>
             </Card.Body>
           </Card>
         </div>
-        <div className='col-12'>
+        <div className="col-12">
           <Card>
-            <Card.Body className='bg-faded'>
-              <blockquote className='blockquote'>
-                <p className='mb-0'>
+            <Card.Body className="bg-faded">
+              <blockquote className="blockquote">
+                <p className="mb-0">
                   You better cut the pizza in four pieces because I'm not hungry
                   enough to eat six.
                 </p>
-                <footer className='blockquote-footer'>
+                <footer className="blockquote-footer">
                   Yogi Berra,
-                  <cite title='Source Title'>
+                  <cite title="Source Title">
                     The Wit and Wisdom of Yogi Berra, P. Pepe, Diversion Books,
                     2014
                   </cite>
@@ -95,15 +101,35 @@ function About(props) {
           </Card>
         </div>
       </div>
-      <div className='row row-content'>
-        <div className='col-12'>
+      <div className="row row-content">
+        <div className="col-12">
           <h2>Corporate Leadership</h2>
         </div>
-        <div className='col-12'>
-          <ul className='list-unstyled'>
-            {leaders.map((leader) => (
-              <RenderLeader key={leader.id} leader={leader} />
-            ))}
+        <div className="col-12">
+          <ul className="list-unstyled">
+            {/* The map method only runs if leaders is not empty */}
+            {isLoading ? (
+              <Media as="li">
+                <Loading />
+              </Media>
+            ) : errorMessage ? (
+              <Media as="li">
+                <h4>{errorMessage}</h4>
+              </Media>
+            ) : (
+              <Stagger in>
+                {leaders.map((leader) => (
+                  <Fade in>
+                    <RenderLeader
+                      key={leader.id}
+                      leader={leader}
+                      isLoading={isLoading}
+                      errorMessage={errorMessage}
+                    />
+                  </Fade>
+                ))}
+              </Stagger>
+            )}
           </ul>
         </div>
       </div>

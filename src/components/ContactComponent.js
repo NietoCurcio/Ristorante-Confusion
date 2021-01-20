@@ -19,7 +19,7 @@ const validEmail = (value) =>
 
 const ContactComponent = (props) => {
   const handleSubmit = (values) => {
-    alert(values)
+    props.postFeedback(values)
     props.resetFeedbackForm()
   }
 

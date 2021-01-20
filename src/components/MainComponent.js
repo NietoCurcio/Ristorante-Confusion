@@ -21,6 +21,8 @@ import {
   fetchDishes,
   fetchComments,
   fetchPromos,
+  fetchLeaders,
+  postFeedback,
 } from '../redux/actionCreators'
 import { useStore, useDispatch } from 'react-redux'
 import { actions } from 'react-redux-form'
@@ -31,7 +33,7 @@ function Main(props) {
   // it runs af every re-render, the second argument tracks what state we are concerned
   const store = useStore()
   const dispatch = useDispatch()
-  const { fetchDishes, fetchComments, fetchPromos } = props
+  const { fetchDishes, fetchComments, fetchPromos, fetchLeaders } = props
   useEffect(() => {
     async function fetchData() {
       // console.log('it takes time, test state update and async function')
@@ -41,6 +43,7 @@ function Main(props) {
       fetchDishes()
       fetchComments()
       fetchPromos()
+      fetchLeaders()
       // console.log(store.getState().dishes)
     }
     fetchData()
@@ -48,6 +51,9 @@ function Main(props) {
     // fetchDishes()
   }, [fetchDishes, fetchComments, fetchPromos])
   const HomePage = () => {
+    console.log(props)
+    console.log(props.dishes.dishes)
+    console.log(props.leaders.leaders)
     return (
       <Home
         dish={props.dishes.dishes.find((dish) => dish.featured)}
@@ -58,7 +64,9 @@ function Main(props) {
         )}
         promosLoading={props.promotions.isLoading}
         promosErrMess={props.promotions.errorMessage}
-        leader={props.leaders.find((leader) => leader.featured)}
+        leader={props.leaders.leaders.find((leader) => leader.featured)}
+        leadersLoading={props.leaders.isLoading}
+        leadersErrMess={props.leaders.errorMessage}
       />
     )
   }
@@ -115,6 +123,7 @@ function Main(props) {
                 <Contact
                   {...routeProps}
                   resetFeedbackForm={props.resetFeedbackForm}
+                  postFeedback={props.postFeedback}
                 />
               )}
             />
@@ -148,6 +157,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(postComment(dishId, rating, author, comment)),
   fetchDishes: () => dispatch(fetchDishes()),
   resetFeedbackForm: () => dispatch(actions.reset('feedback')),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+  postFeedback: (feedback) => dispatch(postFeedback(feedback)),
 })
 // as a object:
 // const mapDispatchToProps = {

@@ -39,6 +39,8 @@ const HomeComponent = ({
   dishesErrMess,
   promosLoading,
   promosErrMess,
+  leadersLoading,
+  leadersErrMess,
 }) => {
   return (
     <div className="container">
@@ -58,7 +60,11 @@ const HomeComponent = ({
           />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={leader} />
+          <RenderCard
+            item={leader}
+            isLoading={leadersLoading}
+            errMessage={leadersErrMess}
+          />
         </div>
       </div>
     </div>
