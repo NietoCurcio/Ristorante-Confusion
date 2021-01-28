@@ -34,26 +34,31 @@ function Main(props) {
   const store = useStore()
   const dispatch = useDispatch()
   const { fetchDishes, fetchComments, fetchPromos, fetchLeaders } = props
-  const dishesRef = useRef(props.dishes.dishes)
-  dishesRef.current = props.dishes.dishes
+  const dishesRef = useRef(null)
+  console.log('Function Component Life Cycle')
+  // dishesRef.current = props.dishes.dishes
+  useEffect(() => {
+    dishesRef.current = props.dishes.dishes
+  })
   useEffect(() => {
     async function fetchData() {
       // console.log('it takes time, test state update and async function')
-      // console.log('Begin effect')
-      // console.log(store.getState().dishes.dishes)
-      // console.log(props.dishes.dishes)
-      // console.log(dishesRef.current)
-      // await fetchDishes()
-      // console.log('After await')
-      // console.log(props.dishes.dishes)
-      // console.log(dishesRef.current)
-      // console.log(store.getState().dishes.dishes)
-      // console.log('End effect')
-      fetchDishes()
-      fetchComments()
-      fetchPromos()
-      fetchLeaders()
+      console.log('Begin effect')
+      console.log(store.getState().dishes.dishes)
+      console.log(props.dishes.dishes)
+      console.log(dishesRef.current)
+      await fetchDishes()
+      console.log('After await')
+      console.log(props.dishes.dishes)
+      console.log(dishesRef.current)
+      console.log(store.getState().dishes.dishes)
+      console.log('End effect')
+      // fetchDishes()
+      // fetchComments()
+      // fetchPromos()
+      // fetchLeaders()
     }
+    console.log('UseEffect Life Cycle')
     fetchData()
     // eslint-disable-next-line
     // fetchDishes()
@@ -107,6 +112,7 @@ function Main(props) {
     <div>
       <Header />
       <TransitionGroup>
+        {console.log('Render Method Life Cycle')}
         {/* {console.log(props)} */}
         <CSSTransition key={props.location.key} classNames="page" timeout={300}>
           <Switch>

@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# Ristorante Con Fusion
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Front-End Web Development with React - Coursera
 
-## Available Scripts
+<img src="./.github/RistorantScreenshot3.png" width="750" alt="Ristorant Confusion">
 
-In the project directory, you can run:
+## Project Structure
 
-### `yarn start`
+### React
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+React it used to construct User Interface, rendering react components on the client-side, it is possible to render on the server side and send to the client using ReactDOMServer, but I've never used this object.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### json-server
 
-### `yarn test`
+To fetch data about dishes, comments, promotions, leaders and post a feedback to a server, we use json-server to set up a REST API for our application. Further, we use this server to deploy our application.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Redux
 
-### `yarn build`
+<img src="./.github/RistorantScreenshot4.png" width="750" alt="Ristorant Confusion">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Redux is used to handle state management in our application, is the data store in our client-side. To use react with redux, there's a package called react-redux, that provides Provider Container Component, to pass information as props to our application and connect method, so that we can export a component connected to Redux store in our app. It also provides hooks such as useSelector, useStore to interact with the store.
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The application is deployed using json-server. Inside the public folder we put the static files, such as html, images, javascript and css files in there. A nice thing that I learned studying this project and reading create-react-app documentations, is that you can get the same result using [Express](https://expressjs.com/en/starter/static-files.html) to serve static files.
 
-### `yarn build` fails to minify
+## Learning Process
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### useCallback & Component Life Cycle
+
+### Component Closure
+
+## About this Course
+
+## Linkedln
