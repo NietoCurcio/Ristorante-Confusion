@@ -60,7 +60,7 @@ export const fetchDishes = () => async (dispatch) => {
   // }
   // const response = await delay()
   // dispatch(addDishes(response))
-  fetch(baseUrl + 'dishes')
+  return fetch(baseUrl + 'dishes')
     .then(
       (response) => {
         // here is when we get a response from the server

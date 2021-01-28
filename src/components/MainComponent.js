@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Menu from './MenuComponent'
 import Dishdetail from './DishdetailComponent '
 import Header from './HeaderComponent'
@@ -34,26 +34,34 @@ function Main(props) {
   const store = useStore()
   const dispatch = useDispatch()
   const { fetchDishes, fetchComments, fetchPromos, fetchLeaders } = props
+  const dishesRef = useRef(props.dishes.dishes)
+  dishesRef.current = props.dishes.dishes
   useEffect(() => {
     async function fetchData() {
       // console.log('it takes time, test state update and async function')
-      // console.log(store.getState().dishes)
-      // console.log('AFTER AWAIT')
+      // console.log('Begin effect')
+      // console.log(store.getState().dishes.dishes)
+      // console.log(props.dishes.dishes)
+      // console.log(dishesRef.current)
       // await fetchDishes()
+      // console.log('After await')
+      // console.log(props.dishes.dishes)
+      // console.log(dishesRef.current)
+      // console.log(store.getState().dishes.dishes)
+      // console.log('End effect')
       fetchDishes()
       fetchComments()
       fetchPromos()
       fetchLeaders()
-      // console.log(store.getState().dishes)
     }
     fetchData()
     // eslint-disable-next-line
     // fetchDishes()
   }, [fetchDishes, fetchComments, fetchPromos])
   const HomePage = () => {
-    console.log(props)
-    console.log(props.dishes.dishes)
-    console.log(props.leaders.leaders)
+    // console.log(props)
+    // console.log(props.dishes.dishes)
+    // console.log(props.leaders.leaders)
     return (
       <Home
         dish={props.dishes.dishes.find((dish) => dish.featured)}
@@ -99,7 +107,7 @@ function Main(props) {
     <div>
       <Header />
       <TransitionGroup>
-        {console.log(props)}
+        {/* {console.log(props)} */}
         <CSSTransition key={props.location.key} classNames="page" timeout={300}>
           <Switch>
             <Route path="/home" component={HomePage} />
