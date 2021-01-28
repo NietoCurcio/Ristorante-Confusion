@@ -86,7 +86,7 @@ Of course that It follows the logic own javascript, according react documentatio
 
 Another words, the backpack of variables in a function, closure or its environment it's seen when the function was created, when the function inside useEffect was created, appContext.product was an empty object, and even after update being updated by getProduct(), it will continue showing an empty object, since the effect lives longer, even after state update and re-render.
 
-In my [final project repo](https://github.com/NietoCurcio/SellerFinder) there is more detailed explanation of my thought process about Closure and useEffect.
+In my [final project](https://github.com/NietoCurcio/SellerFinder) to conclude this course, there is more detailed explanation of my thought process about Closure and useEffect.
 
 ### react-router, withRouter and render
 
