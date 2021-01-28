@@ -40,13 +40,12 @@ Take a look in the following code:
 	}, [validate, state.firstName, state.lastName, state.telNum, state.email])
 ```
 
-Notice that when occurs an update in the Component state, the component will re-render, and the reference
-of validate function will be different, with a new closure (the environment when the function was created). But, because validate is a dependecy in our effect, if it has changed, it will run the effect (even if is not necessary).
-Then we have 3 approachs:
+Notice that when occurs an update in the Component state, the component will re-render, and the reference of validate function will be different, with a new closure (the environment when the function was created). But, because validate is a dependency in our effect, if it has changed, it will run the effect (even if is not necessary).
+Then we have 3 approaches:
 
-- Put validate in the callback, so we get useEffect(validate, [state.firstName]), so isn't a dependecy
-- Declare validate within the effect, so isn't a dependecy
-- wrap the validate function in useCallback hook, is effect's dependency, but only creates a new reference if the dependencies of validate function has changed. Otherwise, same input, same output, nothings has changed. Notice that the state.touched.firstName is a dependency, is an external information.
+- Put validate in the callback, so we get useEffect(validate, [state.firstName]), so isn't a dependency
+- Declare validate within the effect, so isn't a dependency
+- wrap the validate function in useCallback hook, is effect's dependency, but only creates a new reference if the dependencies of validate function have changed. Otherwise, same input, same output, nothings has changed. Notice that the state.touched.firstName is a dependency, is an external information.
 
 ESLint will help us to fix it showing the following error:
 
@@ -63,7 +62,7 @@ const validate = useCallback(({firstName}) => {
 
 The flow of a component, the Life Cycle when the component gets updated within its state is like this:
 
-State update -> re-render Component, return or render method -> useEffect, parse the effect dependencies, state.touched.firstName has changed, useCallback notice that and update validate reference, so run effect (validate and state.firstName also changed) -> inside validate, update errors state -> re-render Component -> useEffect doest not run, since validate hasn't changed its reference and state.firstName is still the same.
+State update -> re-render Component, return or render method -> useEffect, parse the effect dependencies, state.touched.firstName has changed, useCallback notice that and update validate reference, so run effect (validate and state.firstName also changed) -> inside validate, update errors state -> re-render Component -> useEffect does not run, since validate hasn't changed its reference and state.firstName is still the same.
 
 We get the following flow: stateUpdate -> re-render -> useEffect -> stateUpdate -> re-render.
 
@@ -82,7 +81,7 @@ useEffect(() => {
   }, [])
 ```
 
-Of course that It follows the logic own javascript, according react documentations, "Any function inside a component, including event handlers and effects, “sees” the props and state from the render it was created in."
+Of course, that It follows the logic own javascript, according react documentations, "Any function inside a component, including event handlers and effects, “sees” the props and state from the render it was created in."
 
 Another words, the backpack of variables in a function, closure or its environment it's seen when the function was created, when the function inside useEffect was created, appContext.product was an empty object, and even after update being updated by getProduct(), it will continue showing an empty object, since the effect lives longer, even after state update and re-render.
 
