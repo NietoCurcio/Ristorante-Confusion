@@ -4,15 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { loginUser, googleLogin, logoutUser } from '../redux/actionCreators'
 import { connect } from 'react-redux'
 
-const HeaderComponent = ({
-  loginUser,
-  googleLogin,
-  logoutUser,
-  user: { isAuthenticated, user },
-}) => {
-  if (user) user = JSON.parse(user)
-  console.log('FELIPAO')
-  console.log(user)
+const HeaderComponent = (props) => {
   const [state, setState] = useState({
     toggle: false,
     isModalOpen: false,
@@ -20,6 +12,12 @@ const HeaderComponent = ({
 
   const handleToggle = () => {
     setState({ ...state, toggle: !state.toggle })
+  }
+
+  const handleGoogleLogin = (event) => {
+    event.preventDefault()
+    toggleModal()
+    props.googleLogin()
   }
 
   const toggleModal = () => {
@@ -32,17 +30,7 @@ const HeaderComponent = ({
 
   const handleLogin = (event) => {
     event.preventDefault()
-    // console.log(username.current);
-    // console.log(event.target[0]);
-    // window.alert(
-    //   'Username: ' +
-    //     username.current.value +
-    //     ' Password: ' +
-    //     password.current.value +
-    //     ' Remember ' +
-    //     checked.current.checked
-    // )
-    loginUser({
+    props.loginUser({
       username: username.current.value,
       password: password.current.value,
     })
@@ -92,10 +80,20 @@ const HeaderComponent = ({
           </Nav>
           <Nav className="ml-auto">
             <Nav.Link>
-              {isAuthenticated ? (
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  <p>{user.displayName ? user.displayName : user.email}</p>
-                  <Button variant="outline-primary" onClick={logoutUser}>
+              {props.auth.isAuthenticated ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '10px',
+                    alignItems: 'center',
+                  }}
+                >
+                  <p style={{ margin: 0 }}>
+                    {props.auth.user.displayName
+                      ? props.auth.user.displayName
+                      : props.auth.user.email}
+                  </p>
+                  <Button variant="outline-primary" onClick={props.logoutUser}>
                     <i className="fa fa-sign-out fas"></i> Logout
                   </Button>
                 </div>
@@ -158,6 +156,10 @@ const HeaderComponent = ({
               Login
             </Button>
           </Form>
+          <br />
+          <Button variant="danger" onClick={handleGoogleLogin}>
+            <span className="fa fa-google fa-lg"></span> Login with Google
+          </Button>
         </Modal.Body>
       </Modal>
       {/* <Modal show={show} onHide={handleClose}>

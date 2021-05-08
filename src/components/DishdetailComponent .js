@@ -7,30 +7,34 @@ import {
   Modal,
   Button,
 } from 'react-bootstrap'
-// import { Control, LocalForm, Errors } from 'react-redux-form'
 import { Link } from 'react-router-dom'
 import Loading from './LoadingComponent'
 import { baseUrl } from '../shared/baseURL'
-// import { FadeTransform, Fade, Stagger } from 'react-animation-components'
 
-const RenderDish = ({ dish }) => {
+const RenderDish = ({ dish, favorite, postFavorite }) => {
   return (
-    // <FadeTransform
-    //   in
-    //   transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}
-    // >
     <Card>
-      <Card.Img
-        variant="top"
-        src={baseUrl + '/assets/' + dish.image}
-        alt={dish.name}
-      />
+      <Card.Img variant="top" src={dish.image} alt={dish.name} />
+      <Card.ImgOverlay>
+        <Button
+          outline
+          color="primary"
+          onClick={() =>
+            favorite ? console.log('Already favorite') : postFavorite(dish._id)
+          }
+        >
+          {favorite ? (
+            <span className="fa fa-heart"></span>
+          ) : (
+            <span className="fa fa-heart-o"></span>
+          )}
+        </Button>
+      </Card.ImgOverlay>
       <Card.Body>
         <Card.Title>{dish.name}</Card.Title>
         <Card.Text>{dish.description}</Card.Text>
       </Card.Body>
     </Card>
-    // </FadeTransform>
   )
 }
 
@@ -40,15 +44,19 @@ const maxLength = (length) => (value) => !value || value.length <= length
 // note that I chose to use the new react hooks in function components
 const CommentForm = (props) => {
   const [modal, setModal] = useState(false)
-
-  const handleSubmit = (values) => {
-    props.postComment(
-      props.dishId,
-      values.rating,
-      values.author,
-      values.comment
-    )
+  const [form, setForm] = useState({
+    rating: 0,
+    comment: '',
+  })
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    props.postComment(props.dishId, form.rating, form.comment)
     modalToggle()
+  }
+
+  const handleChange = (event) => {
+    console.log(event.target)
+    setForm({ ...form, [event.target.name]: event.target.value })
   }
 
   useEffect(() => {
@@ -71,56 +79,33 @@ const CommentForm = (props) => {
         </Modal.Header>
         <Modal.Body>
           {/* <LocalForm onSubmit={(values) => handleSubmit(values)}> */}
-          <Form.Label htmlFor="rating">Rating</Form.Label>
-          {/* eslint-disable-next-line */}
-          {/* <Control.select
-              model=".rating"
-              className="form-control"
+          <Form onSubmit={(event) => handleSubmit(event)}>
+            <Form.Label htmlFor="rating">Rating</Form.Label>
+            <Form.Control
+              as="select"
               name="rating"
-              id="rating"
               defaultValue="5"
+              onChange={handleChange}
             >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
-            </Control.select> */}
-          <Form.Label htmlFor="author">Your Name</Form.Label>
-          {/* eslint-disable-next-line */}
-          {/* <Control.text
-            model=".author"
-            className="form-control"
-            id="author"
-            name="author"
-            placeholder="Your Name"
-            validators={{
-              minLength: minLength(3),
-              maxLength: maxLength(15),
-            }}
-          /> */}
-          {/* <Errors
-            className="text-danger"
-            model=".author"
-            show="touched"
-            messages={{
-              minLength: 'Must be greater than 2 characters\n',
-              maxLength: 'Must be 15 characters or less',
-            }}
-          /> */}
-          <Form.Label htmlFor="comment">Comment</Form.Label>
-          {/* eslint-disable-next-line */}
-          {/* <Control.textarea
-            model=".comment"
-            className="form-control"
-            id="comment"
-            name="comment"
-            rows={6}
-          /> */}
-          <Button className="mt-2" type="submit" variant="primary">
-            Submit
-          </Button>
-          {/* </LocalForm> */}
+            </Form.Control>
+            <Form.Label htmlFor="comment">Comment</Form.Label>
+            <Form.Control
+              as="textarea"
+              type="text"
+              placeholder="Comment here..."
+              name="comment"
+              onChange={handleChange}
+            />
+
+            <Button className="mt-2" type="submit" variant="primary">
+              Submit
+            </Button>
+          </Form>
         </Modal.Body>
       </Modal>
     </Fragment>
@@ -130,31 +115,28 @@ const CommentForm = (props) => {
 const RenderComments = ({ arrayComments, postComment, dishId }) => {
   return (
     <div>
-      {arrayComments && (
-        <Fragment>
-          <h4>Comments</h4>
-          <ListGroup className="list-unstyled" variant="flush">
-            {/* <Stagger in> */}
-            {arrayComments.map((comment) => (
-              // <Fade in>
-              <ListGroup.Item key={comment.id}>
-                <p>{comment.comment}</p>
-                <p>
-                  -- {comment.author},{' '}
-                  {new Intl.DateTimeFormat('pt-BR', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: '2-digit',
-                  }).format(new Date(comment.date))}
-                </p>
-              </ListGroup.Item>
-              // </Fade>
-            ))}
-            {/* </Stagger> */}
-            <CommentForm dishId={dishId} postComment={postComment} />
-          </ListGroup>
-        </Fragment>
-      )}
+      <Fragment>
+        <h4>Comments</h4>
+        <ListGroup className="list-unstyled" variant="flush">
+          {arrayComments.map((comment) => (
+            <ListGroup.Item key={comment._id}>
+              <p>{comment.comment}</p>
+              <p>
+                -- {comment.author.firstname} {comment.author.lastname},{' '}
+                {new Intl.DateTimeFormat('pt-BR', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: '2-digit',
+                }).format(
+                  new Date(Date.parse(comment.updatedAt.toDate()))
+                )}{' '}
+              </p>
+            </ListGroup.Item>
+          ))}
+
+          <CommentForm dishId={dishId} postComment={postComment} />
+        </ListGroup>
+      </Fragment>
     </div>
   )
 }
@@ -205,13 +187,17 @@ const DishdetailComponent = (props) => {
       </div>
       <div className="row mt-5">
         <div className="col-sm-12 col-md-5 m-1">
-          <RenderDish dish={dish} />
+          <RenderDish
+            dish={dish}
+            favorite={props.favorite}
+            postFavorite={props.postFavorite}
+          />
         </div>
         <div className="col-12 col-sm-12 col-md-5">
           <RenderComments
             arrayComments={comments}
             postComment={postComment}
-            dishId={dish.id}
+            dishId={dish._id}
           />
         </div>
       </div>

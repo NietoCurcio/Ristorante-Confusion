@@ -27,6 +27,8 @@ import {
   postFeedback,
   receiveLogin,
   fetchFavorites,
+  postFavorite,
+  deleteFavorite,
 } from '../redux/actionCreators'
 import { useStore, useDispatch } from 'react-redux'
 // import { actions } from 'react-redux-form'
@@ -44,6 +46,8 @@ function Main(props) {
     fetchLeaders,
     receiveLogin,
     fetchFavorites,
+    postFavorite,
+    deleteFavorite,
   } = props
   const dishesRef = useRef(null)
   console.log('Function Component Life Cycle')
@@ -114,7 +118,7 @@ function Main(props) {
         isLoading={props.dishes.isLoading}
         errMess={props.dishes.errorMessage}
         comments={props.comments.comments.filter(
-          (comment) => comment.dishId === Number(params.dishId)
+          (comment) => comment.dish == params.dishId
         )}
         commentsErrMess={props.comments.errorMessage}
         postComment={props.postComment}
@@ -125,6 +129,7 @@ function Main(props) {
               )
             : false
         }
+        postFavorite={props.postFavorite}
       />
     )
   }
@@ -132,7 +137,12 @@ function Main(props) {
   const { dishes } = props
   return (
     <div>
-      <Header />
+      <Header
+        auth={props.auth}
+        loginUser={props.loginUser}
+        logoutUser={props.logoutUser}
+        googleLogin={props.googleLogin}
+      />
       <TransitionGroup>
         {console.log('Render Method Life Cycle')}
         {/* {console.log(props)} */}
@@ -160,6 +170,7 @@ function Main(props) {
                   {...routeProps}
                   dishes={props.dishes}
                   favorites={props.favorites}
+                  deleteFavorite={props.deleteFavorite}
                 />
               )}
             />
@@ -210,6 +221,8 @@ const mapDispatchToProps = (dispatch) => ({
   postFeedback: (feedback) => dispatch(postFeedback(feedback)),
   receiveLogin: (user) => dispatch(receiveLogin(user)),
   fetchFavorites: () => dispatch(fetchFavorites()),
+  postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+  deleteFavorite: (dishId) => dispatch(deleteFavorite(dishId)),
 })
 // as a object:
 // const mapDispatchToProps = {

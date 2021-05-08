@@ -8,12 +8,7 @@ export const addComment = (comment) => ({
   payload: comment,
 })
 
-export const postComment = (dishId, rating, author, comment) => (dispatch) => {
-  console.log('POST COMMENT ACTION CREATOR')
-  console.log(auth)
-  console.log(auth.currentUser)
-  console.log(firebasestore)
-  console.log(firebasestore.FieldValue)
+export const postComment = (dishId, rating, comment) => (dispatch) => {
   if (!auth.currentUser) {
     console.log('No user logged in')
     return
@@ -35,19 +30,14 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
       updatedAt: firebasestore.FieldValue.serverTimestamp(),
     })
     .then((docRef) => {
-      console.log('EAE')
       console.log(docRef)
       firestore
         .collection('comments')
         .doc(docRef.id)
         .get()
         .then((doc) => {
-          console.log('EAE2')
-          console.log(doc)
           if (doc.exists) {
             const data = doc.data()
-            console.log('EAE3')
-            console.log(data)
             const _id = doc.id
             const comment = { _id, ...data }
             dispatch(addComment(comment))
@@ -408,10 +398,13 @@ export const loginError = (message) => {
 
 export const loginUser = (creds) => (dispatch) => {
   // We dispatch requestLogin to kickoff the call to the API
+  console.log('CHEGUEI AQUI 2?')
+  console.log(creds)
   dispatch(requestLogin(creds))
   return auth
     .signInWithEmailAndPassword(creds.username, creds.password)
     .then(() => {
+      console.log('CHEGUEI AQUI 3?')
       var user = auth.currentUser
       localStorage.setItem('user', JSON.stringify(user))
       // Dispatch the success action
