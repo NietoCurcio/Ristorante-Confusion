@@ -3,7 +3,7 @@ import { Breadcrumb, Card, Media } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Loading from './LoadingComponent'
 import { baseUrl } from '../shared/baseURL'
-import { Fade, Stagger } from 'react-animation-components'
+// import { Fade, Stagger } from 'react-animation-components'
 
 function About(props) {
   const RenderLeader = ({ leader }) => {
@@ -117,18 +117,18 @@ function About(props) {
                 <h4>{errorMessage}</h4>
               </Media>
             ) : (
-              <Stagger in>
-                {leaders.map((leader) => (
-                  <Fade in>
-                    <RenderLeader
-                      key={leader.id}
-                      leader={leader}
-                      isLoading={isLoading}
-                      errorMessage={errorMessage}
-                    />
-                  </Fade>
-                ))}
-              </Stagger>
+              // <Stagger in>
+              leaders.map((leader) => (
+                // <Fade in>
+                <RenderLeader
+                  key={leader.id}
+                  leader={leader}
+                  isLoading={isLoading}
+                  errorMessage={errorMessage}
+                />
+                // </Fade>
+              ))
+              // </Stagger>
             )}
           </ul>
         </div>

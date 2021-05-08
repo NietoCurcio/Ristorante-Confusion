@@ -6,6 +6,8 @@ import Footer from './FooterComponent'
 import Home from './HomeComponent'
 import Contact from './ContactComponent'
 import About from './AboutComponent'
+import PrivateRoute from './PrivateRoute'
+import Favorites from './FavoriteComponent'
 import {
   Switch,
   Route,
@@ -23,9 +25,11 @@ import {
   fetchPromos,
   fetchLeaders,
   postFeedback,
+  receiveLogin,
+  fetchFavorites,
 } from '../redux/actionCreators'
 import { useStore, useDispatch } from 'react-redux'
-import { actions } from 'react-redux-form'
+// import { actions } from 'react-redux-form'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 function Main(props) {
@@ -33,7 +37,14 @@ function Main(props) {
   // it runs af every re-render, the second argument tracks what state we are concerned
   const store = useStore()
   const dispatch = useDispatch()
-  const { fetchDishes, fetchComments, fetchPromos, fetchLeaders } = props
+  const {
+    fetchDishes,
+    fetchComments,
+    fetchPromos,
+    fetchLeaders,
+    receiveLogin,
+    fetchFavorites,
+  } = props
   const dishesRef = useRef(null)
   console.log('Function Component Life Cycle')
   // dishesRef.current = props.dishes.dishes
@@ -57,12 +68,16 @@ function Main(props) {
       fetchComments()
       fetchPromos()
       fetchLeaders()
+      if (localStorage.getItem('user')) {
+        fetchFavorites()
+        receiveLogin(localStorage.getItem('user'))
+      }
     }
     console.log('UseEffect Life Cycle')
     fetchData()
     // eslint-disable-next-line
     // fetchDishes()
-  }, [fetchDishes, fetchComments, fetchPromos])
+  }, [fetchDishes, fetchComments, fetchPromos, fetchLeaders, receiveLogin])
   const HomePage = () => {
     // console.log(props)
     // console.log(props.dishes.dishes)
@@ -94,7 +109,7 @@ function Main(props) {
     return (
       <Dishdetail
         dish={props.dishes.dishes.find(
-          (dish) => dish.id === parseInt(match.params.dishId, 10)
+          (dish) => dish._id === match.params.dishId
         )}
         isLoading={props.dishes.isLoading}
         errMess={props.dishes.errorMessage}
@@ -103,6 +118,13 @@ function Main(props) {
         )}
         commentsErrMess={props.comments.errorMessage}
         postComment={props.postComment}
+        favorite={
+          props.auth.isAuthenticated && props.favorites.favorites
+            ? props.favorites.favorites.dishes.some(
+                (dish) => dish === match.params.dishId
+              )
+            : false
+        }
       />
     )
   }
@@ -130,13 +152,24 @@ function Main(props) {
               // component={() => <Menu {...props} dishes={props.dishes} />}
             />
             <Route exact path="/menu/:dishId" component={DishWithId} />
+            <PrivateRoute
+              exact
+              path="/favorites"
+              component={(routeProps) => (
+                <Favorites
+                  {...routeProps}
+                  dishes={props.dishes}
+                  favorites={props.favorites}
+                />
+              )}
+            />
             <Route
               exact
               path="/contactus"
               render={(routeProps) => (
                 <Contact
                   {...routeProps}
-                  resetFeedbackForm={props.resetFeedbackForm}
+                  // resetFeedbackForm={props.resetFeedbackForm}
                   postFeedback={props.postFeedback}
                 />
               )}
@@ -160,6 +193,8 @@ const mapStateToProps = (state) => ({
   comments: state.comments,
   promotions: state.promotions,
   leaders: state.leaders,
+  favorites: state.favorites,
+  auth: state.auth,
 })
 
 // https://react-redux.js.org/using-react-redux/connect-mapdispatch
@@ -170,9 +205,11 @@ const mapDispatchToProps = (dispatch) => ({
   postComment: (dishId, rating, author, comment) =>
     dispatch(postComment(dishId, rating, author, comment)),
   fetchDishes: () => dispatch(fetchDishes()),
-  resetFeedbackForm: () => dispatch(actions.reset('feedback')),
+  // resetFeedbackForm: () => dispatch(actions.reset('feedback')),
   fetchLeaders: () => dispatch(fetchLeaders()),
   postFeedback: (feedback) => dispatch(postFeedback(feedback)),
+  receiveLogin: (user) => dispatch(receiveLogin(user)),
+  fetchFavorites: () => dispatch(fetchFavorites()),
 })
 // as a object:
 // const mapDispatchToProps = {

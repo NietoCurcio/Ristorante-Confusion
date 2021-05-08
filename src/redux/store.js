@@ -3,10 +3,12 @@ import { Dishes } from './dishesReducer'
 import { Comments } from './commentsReducer'
 import { Promotions } from './promotionsReducer'
 import { Leaders } from './leadersReducer'
+import { Auth } from './authReducer'
+import { favorites } from './favoritesReducer'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
-import { createForms } from 'react-redux-form'
+// import { createForms } from 'react-redux-form'
 import { InitialFeedback } from './forms'
 
 const rootReducer = combineReducers({
@@ -14,9 +16,11 @@ const rootReducer = combineReducers({
   comments: Comments,
   promotions: Promotions,
   leaders: Leaders,
-  ...createForms({
-    feedback: InitialFeedback,
-  }),
+  auth: Auth,
+  favorites,
+  // ...createForms({
+  //   feedback: InitialFeedback,
+  // }),
 })
 
 // const middleware = [thunk, logger]

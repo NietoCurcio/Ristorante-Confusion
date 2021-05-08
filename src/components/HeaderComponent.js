@@ -1,39 +1,53 @@
-import React, { useState, useRef } from 'react';
-import { Jumbotron, Navbar, Nav, Modal, Button, Form } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useRef } from 'react'
+import { Jumbotron, Navbar, Nav, Modal, Button, Form } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
+import { loginUser, googleLogin, logoutUser } from '../redux/actionCreators'
+import { connect } from 'react-redux'
 
-const HeaderComponent = () => {
+const HeaderComponent = ({
+  loginUser,
+  googleLogin,
+  logoutUser,
+  user: { isAuthenticated, user },
+}) => {
+  if (user) user = JSON.parse(user)
+  console.log('FELIPAO')
+  console.log(user)
   const [state, setState] = useState({
     toggle: false,
     isModalOpen: false,
-  });
+  })
 
   const handleToggle = () => {
-    setState({ ...state, toggle: !state.toggle });
-  };
+    setState({ ...state, toggle: !state.toggle })
+  }
 
   const toggleModal = () => {
-    setState({ ...state, isModalOpen: !state.isModalOpen });
-  };
+    setState({ ...state, isModalOpen: !state.isModalOpen })
+  }
 
-  const username = useRef(null);
-  const password = useRef(null);
-  const checked = useRef(null);
+  const username = useRef(null)
+  const password = useRef(null)
+  const checked = useRef(null)
 
   const handleLogin = (event) => {
-    event.preventDefault();
-    toggleModal();
+    event.preventDefault()
     // console.log(username.current);
     // console.log(event.target[0]);
-    window.alert(
-      'Username: ' +
-        username.current.value +
-        ' Password: ' +
-        password.current.value +
-        ' Remember ' +
-        checked.current.checked
-    );
-  };
+    // window.alert(
+    //   'Username: ' +
+    //     username.current.value +
+    //     ' Password: ' +
+    //     password.current.value +
+    //     ' Remember ' +
+    //     checked.current.checked
+    // )
+    loginUser({
+      username: username.current.value,
+      password: password.current.value,
+    })
+    toggleModal()
+  }
 
   return (
     <>
@@ -66,6 +80,11 @@ const HeaderComponent = () => {
               </NavLink>
             </Nav.Link>
             <Nav.Link>
+              <NavLink className="nav-link" to="/favorites">
+                <span className="fa fa-heart fa-lg"></span> My Favorites
+              </NavLink>
+            </Nav.Link>
+            <Nav.Link>
               <NavLink className="nav-link" to="/contactus">
                 <i className="fa fa-address-card fa-lg"></i> Contact Us
               </NavLink>
@@ -73,9 +92,18 @@ const HeaderComponent = () => {
           </Nav>
           <Nav className="ml-auto">
             <Nav.Link>
-              <Button variant="outline-primary" onClick={toggleModal}>
-                <i className="fa fa-sign-in fas"></i> Login
-              </Button>
+              {isAuthenticated ? (
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <p>{user.displayName ? user.displayName : user.email}</p>
+                  <Button variant="outline-primary" onClick={logoutUser}>
+                    <i className="fa fa-sign-out fas"></i> Logout
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="outline-primary" onClick={toggleModal}>
+                  <i className="fa fa-sign-in fas"></i> Login
+                </Button>
+              )}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -147,7 +175,13 @@ const HeaderComponent = () => {
         </Modal.Footer>
       </Modal> */}
     </>
-  );
-};
+  )
+}
 
-export default HeaderComponent;
+const mapStateToProps = (state) => ({
+  user: state.auth,
+})
+
+export default connect(mapStateToProps, { loginUser, googleLogin, logoutUser })(
+  HeaderComponent
+)

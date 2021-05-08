@@ -7,7 +7,7 @@ import {
   Form as FormBoostrap,
 } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Control, Form, Errors } from 'react-redux-form'
+// import { Control, Form, Errors } from 'react-redux-form'
 
 const required = (value) => value && value.length
 const maxLength = (length) => (value) => !value || value.length <= length
@@ -167,14 +167,14 @@ const ContactComponent = (props) => {
           <h3>Send Us Your Feedback</h3>
         </div>
         <div className="col-12 col-md-9">
-          <Form model="feedback" onSubmit={(values) => handleSubmit(values)}>
-            <Row className="mb-4 form-group">
-              <FormBoostrap.Label column lg={2} htmlFor="firstName">
-                First Name
-              </FormBoostrap.Label>
-              <Col>
-                {/* eslint-disable-next-line */}
-                <Control.text
+          {/* <Form model="feedback" onSubmit={(values) => handleSubmit(values)}> */}
+          <Row className="mb-4 form-group">
+            <FormBoostrap.Label column lg={2} htmlFor="firstName">
+              First Name
+            </FormBoostrap.Label>
+            <Col>
+              {/* eslint-disable-next-line */}
+              {/* <Control.text
                   model=".firstName"
                   className="form-control"
                   id="firstName"
@@ -190,18 +190,18 @@ const ContactComponent = (props) => {
                   // isInvalid={errors.firstName !== ''}
                   // onChange={(e) => handleChange(e)}
                   // onBlur={handleBur('firstName')}
-                />
-                <Errors
-                  className="text-danger"
-                  model=".firstName"
-                  show="touched"
-                  messages={{
-                    required: 'Required\n',
-                    minLength: 'Must be greater than 2 characters\n',
-                    maxLength: 'Must be 15 characters or less',
-                  }}
-                />
-                {/* <Alert
+                /> */}
+              {/* <Errors
+                className="text-danger"
+                model=".firstName"
+                show="touched"
+                messages={{
+                  required: 'Required\n',
+                  minLength: 'Must be greater than 2 characters\n',
+                  maxLength: 'Must be 15 characters or less',
+                }}
+              /> */}
+              {/* <Alert
                     show={errors.firstName}
                     transition
                     className="mt-2"
@@ -209,16 +209,16 @@ const ContactComponent = (props) => {
                   >
                     {errors.firstName}
                   </Alert> */}
-              </Col>
-            </Row>
+            </Col>
+          </Row>
 
-            <Row className="mb-4 form-group">
-              <FormBoostrap.Label column lg={2} htmlFor="lastName">
-                Last Name
-              </FormBoostrap.Label>
-              <Col>
-                {/* eslint-disable-next-line */}
-                <Control.text
+          <Row className="mb-4 form-group">
+            <FormBoostrap.Label column lg={2} htmlFor="lastName">
+              Last Name
+            </FormBoostrap.Label>
+            <Col>
+              {/* eslint-disable-next-line */}
+              {/* <Control.text
                   model=".lastName"
                   className="form-control"
                   id="lastName"
@@ -229,27 +229,27 @@ const ContactComponent = (props) => {
                     minLength: minLength(3),
                     maxLength: maxLength(15),
                   }}
-                />
-                <Errors
-                  className="text-danger"
-                  model=".lastName"
-                  show="touched"
-                  messages={{
-                    required: 'Required\n',
-                    minLength: 'Must be greater than 2 characters\n',
-                    maxLength: 'Must be 15 characters or less',
-                  }}
-                />
-              </Col>
-            </Row>
+                /> */}
+              {/* <Errors
+                className="text-danger"
+                model=".lastName"
+                show="touched"
+                messages={{
+                  required: 'Required\n',
+                  minLength: 'Must be greater than 2 characters\n',
+                  maxLength: 'Must be 15 characters or less',
+                }}
+              /> */}
+            </Col>
+          </Row>
 
-            <Row className="mb-4 form-group">
-              <FormBoostrap.Label column lg={2} htmlFor="telNum">
-                Contact Tel.
-              </FormBoostrap.Label>
-              <Col>
-                {/* eslint-disable-next-line */}
-                <Control.text
+          <Row className="mb-4 form-group">
+            <FormBoostrap.Label column lg={2} htmlFor="telNum">
+              Contact Tel.
+            </FormBoostrap.Label>
+            <Col>
+              {/* eslint-disable-next-line */}
+              {/* <Control.text
                   model=".telNum"
                   className="form-control"
                   id="telNum"
@@ -261,28 +261,28 @@ const ContactComponent = (props) => {
                     maxLength: maxLength(15),
                     isNumber,
                   }}
-                />
-              </Col>
-              <Errors
-                className="text-danger"
-                model=".telNum"
-                show="touched"
-                messages={{
-                  required: 'Required\n',
-                  minLength: 'Must be greater than 2 numbers\n',
-                  maxLength: 'Must be 15 numbers or less\n',
-                  isNumber: 'Must be a number',
-                }}
-              />
-            </Row>
+                /> */}
+            </Col>
+            {/* <Errors
+              className="text-danger"
+              model=".telNum"
+              show="touched"
+              messages={{
+                required: 'Required\n',
+                minLength: 'Must be greater than 2 numbers\n',
+                maxLength: 'Must be 15 numbers or less\n',
+                isNumber: 'Must be a number',
+              }}
+            /> */}
+          </Row>
 
-            <Row className="mb-4 form-group">
-              <FormBoostrap.Label column lg={2} htmlFor="email">
-                Email
-              </FormBoostrap.Label>
-              <Col>
-                {/* eslint-disable-next-line */}
-                <Control.text
+          <Row className="mb-4 form-group">
+            <FormBoostrap.Label column lg={2} htmlFor="email">
+              Email
+            </FormBoostrap.Label>
+            <Col>
+              {/* eslint-disable-next-line */}
+              {/* <Control.text
                   model=".email"
                   id="email"
                   name="email"
@@ -292,8 +292,8 @@ const ContactComponent = (props) => {
                     required,
                     validEmail,
                   }}
-                />
-                <Errors
+                /> */}
+              {/* <Errors
                   className="text-danger"
                   model=".email"
                   show="touched"
@@ -301,64 +301,64 @@ const ContactComponent = (props) => {
                     required: 'Required\n',
                     validEmail: 'Invalid Email Address',
                   }}
-                />
-              </Col>
-            </Row>
+                /> */}
+            </Col>
+          </Row>
 
-            <Row className="mb-4">
-              <Col md={{ size: 6, offset: 2 }} className="mt-3">
-                <div className="form-check">
-                  {/* eslint-disable-next-line */}
-                  <Control.checkbox
+          <Row className="mb-4">
+            <Col md={{ size: 6, offset: 2 }} className="mt-3">
+              <div className="form-check">
+                {/* eslint-disable-next-line */}
+                {/* <Control.checkbox
                     model=".agree"
                     className="form-check-input"
                     name="agree"
                     id="agree"
                     label="May we contact you?"
-                  />
-                  <FormBoostrap.Label htmlFor="agree">
-                    <strong>May we contact you?</strong>
-                  </FormBoostrap.Label>
-                </div>
-              </Col>
-              <Col md={{ size: 3, offset: 1 }} className="mt-2">
-                {/* eslint-disable-next-line */}
-                <Control.select
+                  /> */}
+                <FormBoostrap.Label htmlFor="agree">
+                  <strong>May we contact you?</strong>
+                </FormBoostrap.Label>
+              </div>
+            </Col>
+            <Col md={{ size: 3, offset: 1 }} className="mt-2">
+              {/* eslint-disable-next-line */}
+              {/* <Control.select
                   model=".contactType"
                   className="form-control"
                   name="contactType"
                 >
                   <option>Tel.</option>
                   <option>Email</option>
-                </Control.select>
-              </Col>
-            </Row>
+                </Control.select> */}
+            </Col>
+          </Row>
 
-            <Row className="mb-4 form-group">
-              <FormBoostrap.Label column lg={2} htmlFor="message">
-                Your Feedback
-              </FormBoostrap.Label>
-              <Col>
-                {/* eslint-disable-next-line */}
-                <Control.textarea
+          <Row className="mb-4 form-group">
+            <FormBoostrap.Label column lg={2} htmlFor="message">
+              Your Feedback
+            </FormBoostrap.Label>
+            <Col>
+              {/* eslint-disable-next-line */}
+              {/* <Control.textarea
                   model=".message"
                   className="form-control"
                   id="message"
                   name="message"
                   rows={12}
-                />
-              </Col>
-            </Row>
+                /> */}
+            </Col>
+          </Row>
 
-            <Row className="form-group">
-              <Col lg={2}></Col>
-              <Col>
-                <Button type="submit" variant="primary">
-                  Send Feedback
-                </Button>
-              </Col>
-            </Row>
-          </Form>
+          <Row className="form-group">
+            <Col lg={2}></Col>
+            <Col>
+              <Button type="submit" variant="primary">
+                Send Feedback
+              </Button>
+            </Col>
+          </Row>
+          {/* </Form> */}
         </div>
       </div>
     </div>

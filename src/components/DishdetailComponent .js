@@ -7,30 +7,30 @@ import {
   Modal,
   Button,
 } from 'react-bootstrap'
-import { Control, LocalForm, Errors } from 'react-redux-form'
+// import { Control, LocalForm, Errors } from 'react-redux-form'
 import { Link } from 'react-router-dom'
 import Loading from './LoadingComponent'
 import { baseUrl } from '../shared/baseURL'
-import { FadeTransform, Fade, Stagger } from 'react-animation-components'
+// import { FadeTransform, Fade, Stagger } from 'react-animation-components'
 
 const RenderDish = ({ dish }) => {
   return (
-    <FadeTransform
-      in
-      transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}
-    >
-      <Card>
-        <Card.Img
-          variant="top"
-          src={baseUrl + '/assets/' + dish.image}
-          alt={dish.name}
-        />
-        <Card.Body>
-          <Card.Title>{dish.name}</Card.Title>
-          <Card.Text>{dish.description}</Card.Text>
-        </Card.Body>
-      </Card>
-    </FadeTransform>
+    // <FadeTransform
+    //   in
+    //   transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}
+    // >
+    <Card>
+      <Card.Img
+        variant="top"
+        src={baseUrl + '/assets/' + dish.image}
+        alt={dish.name}
+      />
+      <Card.Body>
+        <Card.Title>{dish.name}</Card.Title>
+        <Card.Text>{dish.description}</Card.Text>
+      </Card.Body>
+    </Card>
+    // </FadeTransform>
   )
 }
 
@@ -70,10 +70,10 @@ const CommentForm = (props) => {
           <Modal.Title>Submit Comment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <LocalForm onSubmit={(values) => handleSubmit(values)}>
-            <Form.Label htmlFor="rating">Rating</Form.Label>
-            {/* eslint-disable-next-line */}
-            <Control.select
+          {/* <LocalForm onSubmit={(values) => handleSubmit(values)}> */}
+          <Form.Label htmlFor="rating">Rating</Form.Label>
+          {/* eslint-disable-next-line */}
+          {/* <Control.select
               model=".rating"
               className="form-control"
               name="rating"
@@ -85,42 +85,42 @@ const CommentForm = (props) => {
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
-            </Control.select>
-            <Form.Label htmlFor="author">Your Name</Form.Label>
-            {/* eslint-disable-next-line */}
-            <Control.text
-              model=".author"
-              className="form-control"
-              id="author"
-              name="author"
-              placeholder="Your Name"
-              validators={{
-                minLength: minLength(3),
-                maxLength: maxLength(15),
-              }}
-            />
-            <Errors
-              className="text-danger"
-              model=".author"
-              show="touched"
-              messages={{
-                minLength: 'Must be greater than 2 characters\n',
-                maxLength: 'Must be 15 characters or less',
-              }}
-            />
-            <Form.Label htmlFor="comment">Comment</Form.Label>
-            {/* eslint-disable-next-line */}
-            <Control.textarea
-              model=".comment"
-              className="form-control"
-              id="comment"
-              name="comment"
-              rows={6}
-            />
-            <Button className="mt-2" type="submit" variant="primary">
-              Submit
-            </Button>
-          </LocalForm>
+            </Control.select> */}
+          <Form.Label htmlFor="author">Your Name</Form.Label>
+          {/* eslint-disable-next-line */}
+          {/* <Control.text
+            model=".author"
+            className="form-control"
+            id="author"
+            name="author"
+            placeholder="Your Name"
+            validators={{
+              minLength: minLength(3),
+              maxLength: maxLength(15),
+            }}
+          /> */}
+          {/* <Errors
+            className="text-danger"
+            model=".author"
+            show="touched"
+            messages={{
+              minLength: 'Must be greater than 2 characters\n',
+              maxLength: 'Must be 15 characters or less',
+            }}
+          /> */}
+          <Form.Label htmlFor="comment">Comment</Form.Label>
+          {/* eslint-disable-next-line */}
+          {/* <Control.textarea
+            model=".comment"
+            className="form-control"
+            id="comment"
+            name="comment"
+            rows={6}
+          /> */}
+          <Button className="mt-2" type="submit" variant="primary">
+            Submit
+          </Button>
+          {/* </LocalForm> */}
         </Modal.Body>
       </Modal>
     </Fragment>
@@ -134,23 +134,23 @@ const RenderComments = ({ arrayComments, postComment, dishId }) => {
         <Fragment>
           <h4>Comments</h4>
           <ListGroup className="list-unstyled" variant="flush">
-            <Stagger in>
-              {arrayComments.map((comment) => (
-                <Fade in>
-                  <ListGroup.Item key={comment.id}>
-                    <p>{comment.comment}</p>
-                    <p>
-                      -- {comment.author},{' '}
-                      {new Intl.DateTimeFormat('pt-BR', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: '2-digit',
-                      }).format(new Date(comment.date))}
-                    </p>
-                  </ListGroup.Item>
-                </Fade>
-              ))}
-            </Stagger>
+            {/* <Stagger in> */}
+            {arrayComments.map((comment) => (
+              // <Fade in>
+              <ListGroup.Item key={comment.id}>
+                <p>{comment.comment}</p>
+                <p>
+                  -- {comment.author},{' '}
+                  {new Intl.DateTimeFormat('pt-BR', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit',
+                  }).format(new Date(comment.date))}
+                </p>
+              </ListGroup.Item>
+              // </Fade>
+            ))}
+            {/* </Stagger> */}
             <CommentForm dishId={dishId} postComment={postComment} />
           </ListGroup>
         </Fragment>
