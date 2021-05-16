@@ -96,6 +96,12 @@ When you need pass props to a component that is handled by router, you can use t
 
 with the withRouter function, we have a good way to access router properties like location, history and match.
 
+## Firebase Integration & Google OAuth
+
+The user can be authenticated using google OAuth. So a button that triggers the Google login process was added to the Modal in the Header Component. In the Redux Actions creators, is also possible to interact with Firestore database setting up the 'firebase' module and making the appropriate Firebase configurations. Then, through this firebase module configuration, the API calls in the actions are made to Firestore, to add and fetch resources to the client.
+
+<img src="./.github/oauth.png" width="50%" alt="Ristorant Confusion">
+
 ## About this Course
 
 Front-End Web Development with React is part of a specialization that contains four courses, the
